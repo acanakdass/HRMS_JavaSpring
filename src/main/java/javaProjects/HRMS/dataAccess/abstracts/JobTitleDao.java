@@ -1,4 +1,4 @@
-package javaProjects.HRMS.entities.abstracts;
+package javaProjects.HRMS.dataAccess.abstracts;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
