@@ -20,13 +20,13 @@ import javaProjects.HRMS.entities.concretes.Candidate;
 
 @RestController
 @RequestMapping("/api/candidates")
-public class CandidatesControllers {
+public class CandidatesController {
 
 private CandidateService candidateService;	
 	
 	
 
-	public CandidatesControllers(CandidateService candidateService) {
+	public CandidatesController(CandidateService candidateService) {
 	this.candidateService = candidateService;
 }
 
@@ -41,7 +41,7 @@ private CandidateService candidateService;
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody Candidate candidate) throws NumberFormatException, RemoteException{
+	public Result add(@RequestBody Candidate candidate){
 		System.out.println("candidate Id : ");
 		System.out.println(candidate.getId());
 		Result result = this.candidateService.add(candidate);

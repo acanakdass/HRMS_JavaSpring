@@ -4,7 +4,9 @@ import java.rmi.RemoteException;
 
 import javax.xml.rpc.ServiceException;
 
+import javaProjects.HRMS.entities.concretes.Candidate;
+
 public interface MernisService {
-    public boolean checkIfRealPerson(String tcNo, String firstName, String lastName, int birthYear) throws NumberFormatException, RemoteException;
+    public boolean checkIfRealPerson(Candidate candidate) ;
 
 }

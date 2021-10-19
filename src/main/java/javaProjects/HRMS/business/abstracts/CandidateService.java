@@ -1,6 +1,10 @@
 package javaProjects.HRMS.business.abstracts;
 
+import java.rmi.RemoteException;
 import java.util.List;
+
+import javax.xml.rpc.ServiceException;
+
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.entities.concretes.Candidate;

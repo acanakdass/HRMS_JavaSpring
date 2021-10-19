@@ -18,7 +18,7 @@ import javaProjects.HRMS.entities.concretes.Employer;
 @RequestMapping("api/employers")
 public class EmployersController {
 
-	private final EmployerService employerService;
+	private EmployerService employerService;
 	
 	@Autowired
 	public EmployersController(EmployerService employerService) {

@@ -3,6 +3,8 @@ package javaProjects.HRMS.business.concretes;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import javax.xml.rpc.ServiceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,11 +88,10 @@ public class CandidateManager implements CandidateService {
 		return true;
 	}
 
-	private boolean IdentifyUserWithMernis(Candidate candidate) {
+	private boolean IdentifyUserWithMernis(Candidate candidate){
 		MernisServiceAdapter mernisService = new MernisServiceAdapter();
-		boolean mernisResult = true;
-//		mernisResult = mernisService.checkIfRealPerson(candidate.getIdentityNumber(), candidate.getFirstName(),
-//				candidate.getLastName(), candidate.getBirthYear());
+//		boolean mernisResult = true;
+		boolean mernisResult = mernisService.checkIfRealPerson(candidate);
 		if (mernisResult) {
 			return true;
 		}

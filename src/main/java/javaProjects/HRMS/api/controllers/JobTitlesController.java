@@ -5,21 +5,25 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import javaProjects.HRMS.business.abstracts.JobTitleService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
+import javaProjects.HRMS.core.utilities.results.Result;
+import javaProjects.HRMS.entities.concretes.Employer;
 import javaProjects.HRMS.entities.concretes.JobTitle;
 
 @RestController
 @RequestMapping("/api/jobTitles")
-public class JobTitlesControllers {
+public class JobTitlesController {
 
 	private JobTitleService jobTitleService;	
 	
 	@Autowired
-	public JobTitlesControllers(JobTitleService jobTitleService) {
+	public JobTitlesController(JobTitleService jobTitleService) {
 		super();
 		this.jobTitleService = jobTitleService;
 	}
@@ -29,4 +33,9 @@ public class JobTitlesControllers {
 	public DataResult<List<JobTitle>> getAll(){
 		return this.jobTitleService.getAll();
 	}
+	
+	@PostMapping("/add")
+    public Result add(@RequestBody JobTitle jobTitle){
+        return this.jobTitleService.add(jobTitle);
+    }
 }
