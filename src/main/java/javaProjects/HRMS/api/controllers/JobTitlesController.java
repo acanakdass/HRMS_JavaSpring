@@ -15,6 +15,7 @@ import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.entities.concretes.Employer;
 import javaProjects.HRMS.entities.concretes.JobTitle;
+import javaProjects.HRMS.entities.dtos.JobTitleAddDto;
 
 @RestController
 @RequestMapping("/api/jobTitles")
@@ -35,7 +36,7 @@ public class JobTitlesController {
 	}
 	
 	@PostMapping("/add")
-    public Result add(@RequestBody JobTitle jobTitle){
-        return this.jobTitleService.add(jobTitle);
+    public Result add(@RequestBody JobTitleAddDto jobTitleAddDto){
+        return this.jobTitleService.add(jobTitleAddDto);
     }
 }

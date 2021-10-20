@@ -1,9 +1,7 @@
 package javaProjects.HRMS.business.concretes;
 
-import java.rmi.RemoteException;
 import java.util.List;
 
-import javax.xml.rpc.ServiceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +31,12 @@ public class CandidateManager implements CandidateService {
 
 	@Override
 	public DataResult<List<Candidate>> getAll() {
-		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll(), "Adaylar Listelendi");
+		
+		List<Candidate> candidates = this.candidateDao.findAll();
+		if(candidates.isEmpty()) {
+			return new ErrorDataResult<>("Aday Bulunamadı");
+		}
+		return new SuccessDataResult<List<Candidate>>(candidates,"Adaylar Listelendi");
 	}
 
 	@Override

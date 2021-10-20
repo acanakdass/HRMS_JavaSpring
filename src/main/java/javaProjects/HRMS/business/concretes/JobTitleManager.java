@@ -15,6 +15,7 @@ import javaProjects.HRMS.core.utilities.results.SuccessResult;
 import javaProjects.HRMS.dataAccess.abstracts.JobTitleDao;
 import javaProjects.HRMS.entities.concretes.City;
 import javaProjects.HRMS.entities.concretes.JobTitle;
+import javaProjects.HRMS.entities.dtos.JobTitleAddDto;
 
 @Service
 public class JobTitleManager implements JobTitleService {
@@ -39,7 +40,9 @@ public class JobTitleManager implements JobTitleService {
 	}
 
 	@Override
-	public Result add(JobTitle jobTitle) {
+	public Result add(JobTitleAddDto jobTitleAddDto) {
+		JobTitle jobTitle = new JobTitle();
+		jobTitle.setTitle(jobTitleAddDto.getTitle());
 		if (CheckIfJobTitleExists(jobTitle)==false) {
 			this.jobTitleDao.save(jobTitle);
 			return new SuccessResult("İş Posizyonu Başarıyla Eklendi");
