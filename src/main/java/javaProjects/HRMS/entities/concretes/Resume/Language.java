@@ -1,6 +1,7 @@
 package javaProjects.HRMS.entities.concretes.Resume;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -15,8 +16,10 @@ import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javaProjects.HRMS.entities.concretes.Candidate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -40,6 +43,6 @@ public class Language {
 	
 	
 	@JoinColumn(name = "resume_id")
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Resume resume;
 }

@@ -5,38 +5,40 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javaProjects.HRMS.business.abstracts.CityService;
 import javaProjects.HRMS.business.abstracts.JobTitleService;
+import javaProjects.HRMS.core.business.concretes.BaseManager;
+import javaProjects.HRMS.core.constants.Messages;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorDataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
+import javaProjects.HRMS.dataAccess.abstracts.CityDao;
 import javaProjects.HRMS.dataAccess.abstracts.JobTitleDao;
 import javaProjects.HRMS.entities.concretes.City;
 import javaProjects.HRMS.entities.concretes.JobTitle;
 import javaProjects.HRMS.entities.dtos.JobTitleAddDto;
+import net.bytebuddy.asm.Advice.This;
 
 @Service
-public class JobTitleManager implements JobTitleService {
+public class JobTitleManager extends BaseManager<JobTitleDao, JobTitle, Integer> implements JobTitleService {
 
+	
 	private JobTitleDao jobTitleDao;
 
 	@Autowired
 	public JobTitleManager(JobTitleDao jobTitleDao) {
-		super();
+		super(jobTitleDao, "Job Title");
 		this.jobTitleDao = jobTitleDao;
 	}
 
-	@Override
-	public DataResult<List<JobTitle>> getAll() {
-		return new SuccessDataResult<List<JobTitle>>(this.jobTitleDao.findAll(), "Listed");
-	}
 
 	@Override
 	public DataResult<JobTitle> getByTitle(String title) {
+		return new SuccessDataResult<JobTitle>(this.jobTitleDao.getByTitle(title),Messages.alreadyExists("Job Title"));
 
-		return new SuccessDataResult<JobTitle>(this.jobTitleDao.getByTitle(title), "İş Pozisyonu Listelendi");
 	}
 
 	@Override
@@ -45,9 +47,9 @@ public class JobTitleManager implements JobTitleService {
 		jobTitle.setTitle(jobTitleAddDto.getTitle());
 		if (CheckIfJobTitleExists(jobTitle)==false) {
 			this.jobTitleDao.save(jobTitle);
-			return new SuccessResult("İş Posizyonu Başarıyla Eklendi");
+			return new SuccessResult(Messages.added("Job Title"));
 		}
-		return new ErrorResult("İş Pozisyonu Zaten Mevcut");
+		return new ErrorResult(Messages.alreadyExists("Job Title"));
 	}
 
 	// Business Rules Methods
@@ -59,13 +61,13 @@ public class JobTitleManager implements JobTitleService {
 		return true;
 	}
 
-	@Override
-	public DataResult<JobTitle> getById(int id) {
-		JobTitle jobTitle = this.jobTitleDao.findById(id).get();
-		if (jobTitle == null) {
-			return new ErrorDataResult<JobTitle>("İş Pozisyonu Bulunamadı");
-		}
-		return new SuccessDataResult<JobTitle>(this.jobTitleDao.findById(id).get(), "İş Pozisyonu Listelendi");
-	}
+//	@Override
+//	public DataResult<JobTitle> getById(int id) {
+//		JobTitle jobTitle = this.jobTitleDao.findById(id).get();
+//		if (jobTitle == null) {
+//			return new ErrorDataResult<JobTitle>("İş Pozisyonu Bulunamadı");
+//		}
+//		return new SuccessDataResult<JobTitle>(this.jobTitleDao.findById(id).get(), "İş Pozisyonu Listelendi");
+//	}
 
 }

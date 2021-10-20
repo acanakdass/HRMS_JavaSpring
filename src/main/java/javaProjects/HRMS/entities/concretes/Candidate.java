@@ -1,16 +1,14 @@
 package javaProjects.HRMS.entities.concretes;
 
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javaProjects.HRMS.entities.abstracts.User;
 import javaProjects.HRMS.entities.concretes.Resume.Resume;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,7 +34,8 @@ public class Candidate extends User{
 	
 	@Column(name = "birth_year")
 	private int birthYear;
-	@JsonIgnore
-	@OneToOne(mappedBy="candidate")
+	
+	@OneToOne()
+    @JoinColumn(name = "resume_id")
 	private Resume resume;
 }

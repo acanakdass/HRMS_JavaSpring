@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javaProjects.HRMS.business.abstracts.CandidateService;
 import javaProjects.HRMS.core.adapters.concretes.MernisServiceAdapter;
+import javaProjects.HRMS.core.business.concretes.BaseManager;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorDataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorResult;
@@ -15,19 +16,21 @@ import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
 import javaProjects.HRMS.dataAccess.abstracts.CandidateDao;
+import javaProjects.HRMS.dataAccess.abstracts.ResumeDao;
 import javaProjects.HRMS.entities.concretes.Candidate;
+import javaProjects.HRMS.entities.concretes.Resume.Resume;
 
 @Service
-public class CandidateManager implements CandidateService {
+public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integer> implements CandidateService {
 
 	private CandidateDao candidateDao;
-
+	
 	@Autowired
 	public CandidateManager(CandidateDao candidateDao) {
-		super();
-		this.candidateDao = candidateDao;
-
+		super(candidateDao, "Candidate");
+		this.candidateDao=candidateDao;
 	}
+
 
 	@Override
 	public DataResult<List<Candidate>> getAll() {
@@ -46,6 +49,11 @@ public class CandidateManager implements CandidateService {
 			
 			if (CheckIfEmailExists(candidate.getEmail())) {
 				if (IdentifyUserWithMernis(candidate)) {
+					
+					if (candidate.getResume() !=null) {
+						candidate.getResume().setCandidate(candidate);
+					}
+					
 					this.candidateDao.save(candidate);
 					return new SuccessResult("Kullanıcı bilgileri mernis ile doğrulandı ve sisteme eklendi");
 				} else {
@@ -100,5 +108,15 @@ public class CandidateManager implements CandidateService {
 		}
 		return false;
 	}
+
+
+	@Override
+	public void save(Candidate candidate) {
+		this.candidateDao.save(candidate);
+		
+	}
+
+
+
 
 }
