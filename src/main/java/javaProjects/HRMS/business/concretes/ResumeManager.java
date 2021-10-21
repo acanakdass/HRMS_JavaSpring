@@ -77,4 +77,9 @@ public class ResumeManager extends BaseManager<ResumeDao, Resume, Integer> imple
 		return new SuccessResult("Özgeçmiş Eklendi");
 	}
 
+	@Override
+	public void save(Resume resume) {
+		this.resumeDao.save(resume);	
+	}
+
 }

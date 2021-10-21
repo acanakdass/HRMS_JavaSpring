@@ -45,8 +45,6 @@ public class Resume {
 	@Column(name="linkedin_address")
 	private String linkedinAddress;
 
-	@Column(name="photo_url")
-	private String photoUrl;
 
 	@Column(name="cover_letter")
 	private String coverLetter;

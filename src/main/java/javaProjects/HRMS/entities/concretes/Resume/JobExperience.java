@@ -1,9 +1,7 @@
 package javaProjects.HRMS.entities.concretes.Resume;
 
-import java.sql.Date;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,7 +37,7 @@ public class JobExperience {
 
 //	@NotNull
 	@JoinColumn(name = "resume_id")
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Resume resume;
 
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javaProjects.HRMS.business.abstracts.EmployerService;
+import javaProjects.HRMS.core.business.concretes.BaseManager;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorDataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorResult;
@@ -15,24 +16,18 @@ import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
 import javaProjects.HRMS.dataAccess.abstracts.EmployerDao;
-import javaProjects.HRMS.entities.concretes.Candidate;
+
 import javaProjects.HRMS.entities.concretes.Employer;
-import javaProjects.HRMS.entities.concretes.JobTitle;
 
 @Service
-public class EmployerManager implements EmployerService {
+public class EmployerManager extends BaseManager<EmployerDao, Employer, Integer> implements EmployerService {
 
 	private EmployerDao employerDao;
 
 	@Autowired
 	public EmployerManager(EmployerDao employerDao) {
-		super();
+		super(employerDao, "Employer");
 		this.employerDao = employerDao;
-	}
-
-	@Override
-	public DataResult<List<Employer>> getAll() {
-		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(), "İşverenler Listelendi");
 	}
 
 	@Override
@@ -73,12 +68,7 @@ public class EmployerManager implements EmployerService {
 	}
 
 	@Override
-	public DataResult<Employer> getById(int id) {
-		Employer employer = this.employerDao.findById(id).get();
-		if (employer == null) {
-			return new ErrorDataResult<Employer>("İşveren Bulunamadı");
-		}
-		return new SuccessDataResult<Employer>(this.employerDao.findById(id).get(), "İşveren Listelendi");
+	public void save(Employer employer) {
+		this.employerDao.save(employer);
 	}
-
 }

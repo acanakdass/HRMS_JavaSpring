@@ -18,14 +18,12 @@ public abstract class BaseManager<TEntityDao extends JpaRepository<TEntity, TEnt
 	private TEntityDao entityDao;
 	private String entityName;
 
-	
-
 	public BaseManager(TEntityDao entityDao, String entityName) {
 		super();
 		this.entityDao = entityDao;
 		this.entityName = entityName;
 	}
-
+	
 	@Override
 	public Result add(TEntity entity) {
 		entityDao.save(entity);
@@ -34,11 +32,11 @@ public abstract class BaseManager<TEntityDao extends JpaRepository<TEntity, TEnt
 
 	@Override
 	public Result delete(TEntityId id) {
-		 TEntity entity = entityDao.findById(id).get();
-		if (entity==null)
+		 Optional<TEntity> entity = entityDao.findById(id);
+		if (entity.isEmpty())
 			return new ErrorDataResult<TEntity>(Messages.notFound(entityName));
 
-		entityDao.delete(entity);
+		entityDao.delete(entity.get());
 		return new SuccessResult(Messages.deleted(entityName));
 	}
 
@@ -50,12 +48,12 @@ public abstract class BaseManager<TEntityDao extends JpaRepository<TEntity, TEnt
 
 	@Override
 	public DataResult<TEntity> getById(final TEntityId id) {
-		 TEntity entity = entityDao.findById(id).get();
+		 Optional<TEntity> entity = entityDao.findById(id);
 
-		if (entity==null)
+		if (entity.isEmpty())
 			return new ErrorDataResult<TEntity>(Messages.notFound(entityName));
 
-		return new SuccessDataResult<TEntity>(entity);
+		return new SuccessDataResult<TEntity>(entity.get());
 	}
 
 	@Override

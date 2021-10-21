@@ -50,9 +50,9 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 			if (CheckIfEmailExists(candidate.getEmail())) {
 				if (IdentifyUserWithMernis(candidate)) {
 					
-					if (candidate.getResume() !=null) {
-						candidate.getResume().setCandidate(candidate);
-					}
+//					if (candidate.getResume() !=null) {
+//						candidate.getResume().setCandidate(candidate);
+//					}
 					
 					this.candidateDao.save(candidate);
 					return new SuccessResult("Kullanıcı bilgileri mernis ile doğrulandı ve sisteme eklendi");
@@ -109,14 +109,9 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 		return false;
 	}
 
-
 	@Override
 	public void save(Candidate candidate) {
 		this.candidateDao.save(candidate);
 		
 	}
-
-
-
-
 }

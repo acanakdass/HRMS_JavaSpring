@@ -15,4 +15,5 @@ public interface BaseService<T, Id> {
 	DataResult<T> getById(Id id);
 
 	Result update(T entity);
+	
 }
