@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javaProjects.HRMS.business.abstracts.CityService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
-import javaProjects.HRMS.entities.concretes.City;
-import javaProjects.HRMS.entities.concretes.Employer;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.City;
+import javaProjects.HRMS.entities.concretes.Users.Employer;
 
 @RestController
 @RequestMapping("/api/cities")

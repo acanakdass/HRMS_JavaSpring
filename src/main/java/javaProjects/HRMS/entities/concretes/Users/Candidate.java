@@ -1,4 +1,4 @@
-package javaProjects.HRMS.entities.concretes;
+package javaProjects.HRMS.entities.concretes.Users;
 
 
 
@@ -12,8 +12,10 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiParam;
 import javaProjects.HRMS.entities.abstracts.User;
 import javaProjects.HRMS.entities.concretes.Resume.Resume;
+import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeCandidate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,7 +42,14 @@ public class Candidate extends User{
 	@Column(name = "birth_year")
 	private int birthYear;
 	
+//	@ApiParam(hidden = true)
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "resume_id")
 	private Resume resume;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "verification_id")
+	private VerificationCodeCandidate verificationCodeCandidate;
+	
+	
 }

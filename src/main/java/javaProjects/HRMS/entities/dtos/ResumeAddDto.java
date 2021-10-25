@@ -11,11 +11,11 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javaProjects.HRMS.entities.concretes.Candidate;
 import javaProjects.HRMS.entities.concretes.Resume.JobExperience;
 import javaProjects.HRMS.entities.concretes.Resume.Language;
 import javaProjects.HRMS.entities.concretes.Resume.School;
 import javaProjects.HRMS.entities.concretes.Resume.Skill;
+import javaProjects.HRMS.entities.concretes.Users.Candidate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

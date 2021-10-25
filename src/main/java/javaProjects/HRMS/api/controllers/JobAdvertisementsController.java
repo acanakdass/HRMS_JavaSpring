@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javaProjects.HRMS.business.abstracts.JobAdvertisementService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.Result;
-import javaProjects.HRMS.entities.concretes.JobAdvertisement;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobAdvertisement;
 import javaProjects.HRMS.entities.dtos.JobAdvertisementAddDto;
 
 @RestController
@@ -37,9 +37,19 @@ public class JobAdvertisementsController {
 		return this.jobAdvertisementService.getAllActive();
 	}
 	
+	@GetMapping("/getallactiveandconfirmed")
+	public DataResult<List<JobAdvertisement>> getAllActiveAndConfirmed(){
+		return this.jobAdvertisementService.getAllActiveAndConfirmed();
+	}
+	
 	@GetMapping("/getAllActiveByAscReleaseDate")
 	public DataResult<List<JobAdvertisement>> getAllActiveByAscReleaseDate(){
 		return this.jobAdvertisementService.getAllActiveByAscReleaseDate();
+	}
+	
+	@GetMapping("/getAllActiveByDescReleaseDate")
+	public DataResult<List<JobAdvertisement>> getAllActiveByDescReleaseDate(){
+		return this.jobAdvertisementService.getAllActiveByDescReleaseDate();
 	}
 	
 	@GetMapping("/getAllActiveByCompanyName")

@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import javax.xml.rpc.ServiceException;
 
 import javaProjects.HRMS.core.adapters.abstracts.MernisService;
-import javaProjects.HRMS.entities.concretes.Candidate;
+import javaProjects.HRMS.entities.concretes.Users.Candidate;
 import tr.gov.nvi.tckimlik.WS.KPSPublicLocator;
 import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
 

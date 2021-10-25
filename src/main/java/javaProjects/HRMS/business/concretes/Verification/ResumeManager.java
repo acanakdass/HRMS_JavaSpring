@@ -1,4 +1,4 @@
-package javaProjects.HRMS.business.concretes;
+package javaProjects.HRMS.business.concretes.Verification;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +11,8 @@ import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
 
 import javaProjects.HRMS.dataAccess.abstracts.ResumeDao;
-import javaProjects.HRMS.entities.concretes.Candidate;
 import javaProjects.HRMS.entities.concretes.Resume.Resume;
+import javaProjects.HRMS.entities.concretes.Users.Candidate;
 
 @Service
 public class ResumeManager extends BaseManager<ResumeDao, Resume, Integer> implements ResumeService {

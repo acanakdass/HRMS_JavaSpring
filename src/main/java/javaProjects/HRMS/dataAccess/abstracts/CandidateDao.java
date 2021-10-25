@@ -2,7 +2,7 @@ package javaProjects.HRMS.dataAccess.abstracts;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javaProjects.HRMS.entities.concretes.Candidate;
+import javaProjects.HRMS.entities.concretes.Users.Candidate;
 
 public interface CandidateDao extends JpaRepository<Candidate, Integer> {
 

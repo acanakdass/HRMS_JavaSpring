@@ -34,4 +34,8 @@ public class JobAdvertisementAddDto {
 	private int jobTitleId;
 
     private int employerId;
+    
+    private int workTypeId;
+
+    private int workTimeId;
 }

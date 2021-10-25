@@ -16,7 +16,7 @@ import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javaProjects.HRMS.entities.concretes.Candidate;
+import javaProjects.HRMS.entities.concretes.Users.Candidate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,4 +1,4 @@
-package javaProjects.HRMS.business.concretes;
+package javaProjects.HRMS.business.concretes.Users;
 
 import org.springframework.stereotype.Service;
 

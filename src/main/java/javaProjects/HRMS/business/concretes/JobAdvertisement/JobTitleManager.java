@@ -1,4 +1,4 @@
-package javaProjects.HRMS.business.concretes;
+package javaProjects.HRMS.business.concretes.JobAdvertisement;
 
 import java.util.List;
 
@@ -17,8 +17,8 @@ import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
 import javaProjects.HRMS.dataAccess.abstracts.CityDao;
 import javaProjects.HRMS.dataAccess.abstracts.JobTitleDao;
-import javaProjects.HRMS.entities.concretes.City;
-import javaProjects.HRMS.entities.concretes.JobTitle;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.City;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobTitle;
 import javaProjects.HRMS.entities.dtos.JobTitleAddDto;
 import net.bytebuddy.asm.Advice.This;
 

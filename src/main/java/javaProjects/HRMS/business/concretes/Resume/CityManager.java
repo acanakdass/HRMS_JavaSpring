@@ -1,4 +1,4 @@
-package javaProjects.HRMS.business.concretes;
+package javaProjects.HRMS.business.concretes.Resume;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import javaProjects.HRMS.business.abstracts.CityService;
 import javaProjects.HRMS.core.business.concretes.BaseManager;
 
 import javaProjects.HRMS.dataAccess.abstracts.CityDao;
-import javaProjects.HRMS.entities.concretes.City;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.City;
 
 @Service
 public class CityManager extends BaseManager<CityDao, City, Integer> implements CityService {

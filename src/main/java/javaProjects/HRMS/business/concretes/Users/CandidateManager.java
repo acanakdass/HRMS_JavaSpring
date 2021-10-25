@@ -1,7 +1,8 @@
-package javaProjects.HRMS.business.concretes;
+package javaProjects.HRMS.business.concretes.Users;
 
 import java.util.List;
-
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javaProjects.HRMS.business.abstracts.CandidateService;
 import javaProjects.HRMS.core.adapters.concretes.MernisServiceAdapter;
 import javaProjects.HRMS.core.business.concretes.BaseManager;
+import javaProjects.HRMS.core.constants.Messages;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorDataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorResult;
@@ -17,8 +19,11 @@ import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
 import javaProjects.HRMS.dataAccess.abstracts.CandidateDao;
 import javaProjects.HRMS.dataAccess.abstracts.ResumeDao;
-import javaProjects.HRMS.entities.concretes.Candidate;
 import javaProjects.HRMS.entities.concretes.Resume.Resume;
+import javaProjects.HRMS.entities.concretes.Users.Candidate;
+import javaProjects.HRMS.entities.concretes.Users.Employer;
+import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeCandidate;
+import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeEmployer;
 
 @Service
 public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integer> implements CandidateService {
@@ -49,11 +54,7 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 			
 			if (CheckIfEmailExists(candidate.getEmail())) {
 				if (IdentifyUserWithMernis(candidate)) {
-					
-//					if (candidate.getResume() !=null) {
-//						candidate.getResume().setCandidate(candidate);
-//					}
-					
+					SetVerification(candidate);
 					this.candidateDao.save(candidate);
 					return new SuccessResult("Kullanıcı bilgileri mernis ile doğrulandı ve sisteme eklendi");
 				} else {
@@ -66,6 +67,16 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 			return new ErrorResult("Tc Kimlik Numarası Sistemde Mevcut");
 		}
 	}
+	
+
+	@Override
+	public DataResult<Candidate> getById(int id) {
+		Optional<Candidate> candidate = this.candidateDao.findById(id);
+		if (candidate.isEmpty()) {
+			return new ErrorDataResult<Candidate>(Messages.notFound("Candidate"));
+		}
+		return new SuccessDataResult<Candidate>(candidate.get(),Messages.complete("Candidate"));	}
+	
 
 	@Override
 	public DataResult<Candidate> getByEmail(String email) {
@@ -84,7 +95,16 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 		}
 		return new SuccessDataResult<Candidate>(candidate, "Aday Listelendi");
 	}
+	
+	@Override
+	public void save(Candidate candidate) {
+		this.candidateDao.save(candidate);
+	}
 
+		
+	
+	
+//Business Rules methods
 	private boolean CheckIfIdentityNumberExists(String identityNumber) {
 		if (this.getByIdentityNumber(identityNumber).getData() == null) {
 			return true;
@@ -101,7 +121,6 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 
 	private boolean IdentifyUserWithMernis(Candidate candidate){
 		MernisServiceAdapter mernisService = new MernisServiceAdapter();
-//		boolean mernisResult = true;
 		boolean mernisResult = mernisService.checkIfRealPerson(candidate);
 		if (mernisResult) {
 			return true;
@@ -109,9 +128,13 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 		return false;
 	}
 
-	@Override
-	public void save(Candidate candidate) {
-		this.candidateDao.save(candidate);
-		
+	private Candidate SetVerification(Candidate candidate) {
+		UUID uuid = UUID.randomUUID();
+		VerificationCodeCandidate verificationCodeCandidate =new VerificationCodeCandidate();
+		verificationCodeCandidate.setVerified(false);
+		verificationCodeCandidate.setCode(uuid.toString());
+		candidate.setVerificationCodeCandidate(verificationCodeCandidate);
+		return candidate;
 	}
+
 }

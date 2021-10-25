@@ -13,8 +13,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import javaProjects.HRMS.business.abstracts.JobTitleService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.Result;
-import javaProjects.HRMS.entities.concretes.Employer;
-import javaProjects.HRMS.entities.concretes.JobTitle;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobTitle;
 import javaProjects.HRMS.entities.dtos.JobTitleAddDto;
 
 @RestController

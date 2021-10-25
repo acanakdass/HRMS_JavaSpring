@@ -1,4 +1,4 @@
-package javaProjects.HRMS.business.concretes;
+package javaProjects.HRMS.business.concretes.JobAdvertisement;
 
 import java.sql.Date;
 import java.util.List;
@@ -10,16 +10,21 @@ import javaProjects.HRMS.business.abstracts.CityService;
 import javaProjects.HRMS.business.abstracts.EmployerService;
 import javaProjects.HRMS.business.abstracts.JobAdvertisementService;
 import javaProjects.HRMS.business.abstracts.JobTitleService;
+import javaProjects.HRMS.business.abstracts.JobAdvertisement.WorkTimeService;
+import javaProjects.HRMS.business.abstracts.JobAdvertisement.WorkTypeService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
 import javaProjects.HRMS.dataAccess.abstracts.JobAdvertisementDao;
-import javaProjects.HRMS.entities.concretes.City;
-import javaProjects.HRMS.entities.concretes.Employer;
-import javaProjects.HRMS.entities.concretes.JobAdvertisement;
-import javaProjects.HRMS.entities.concretes.JobTitle;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobAdvertisement;
+import javaProjects.HRMS.entities.abstracts.SystemEmployeeConfirm;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.City;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobTitle;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.WorkTime;
+import javaProjects.HRMS.entities.concretes.JobAdvertisement.WorkType;
+import javaProjects.HRMS.entities.concretes.Users.Employer;
 import javaProjects.HRMS.entities.dtos.JobAdvertisementAddDto;
 
 @Service
@@ -29,15 +34,20 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	private CityService cityService;
 	private EmployerService employerService;
 	private JobTitleService jobTitleService;
+	public WorkTypeService workTypeService;
+	public WorkTimeService workTimeService;
 
 	@Autowired
 	public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao, CityService cityService,
-			EmployerService employerService, JobTitleService jobTitleService) {
+			EmployerService employerService, JobTitleService jobTitleService,
+			WorkTypeService workTypeService,WorkTimeService workTimeService) {
 		super();
 		this.jobAdvertisementDao = jobAdvertisementDao;
 		this.cityService = cityService;
 		this.employerService = employerService;
 		this.jobTitleService = jobTitleService;
+		this.workTimeService = workTimeService;
+		this.workTypeService = workTypeService;
 	}
 
 	@Override
@@ -56,6 +66,10 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		jobAdvert.setMaxSalary(jobAdvertisementAddDto.getMaxSalary());
 		jobAdvert.setExpirationDate(jobAdvertisementAddDto.getExpirationDate());
 		jobAdvert.setReleaseDate(new Date(System.currentTimeMillis()));
+		
+		SystemEmployeeConfirm systemEmployeeConfirm= new SystemEmployeeConfirm();
+		systemEmployeeConfirm.setConfirmed(false);
+		jobAdvert.setSystemEmployeeConfirm(systemEmployeeConfirm);
 
 		City city = this.cityService.getById(jobAdvertisementAddDto.getCityId()).getData();
 		jobAdvert.setCity(city);
@@ -65,7 +79,12 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 
 		Employer employer = this.employerService.getById(jobAdvertisementAddDto.getEmployerId()).getData();
 		jobAdvert.setEmployer(employer);
-
+		
+		WorkType workType = this.workTypeService.getById(jobAdvertisementAddDto.getWorkTypeId()).getData();
+		jobAdvert.setWorkType(workType);
+		
+		WorkTime workTime = this.workTimeService.getById(jobAdvertisementAddDto.getWorkTimeId()).getData();
+		jobAdvert.setWorkTime(workTime);
 		this.jobAdvertisementDao.save(jobAdvert);
 		return new SuccessResult("İş İlanı Eklendi");
 	}
@@ -105,6 +124,16 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		jobAdvert.setActive(false);
 		jobAdvertisementDao.save(jobAdvert);
 		return new SuccessResult("İlan Pasif Hale Getirildi");
+	}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getAllActiveByDescReleaseDate() {
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getAllActiveByDescReleaseDate(), "Aktif İlanlar Eskiden Yeniye Listelendi");
+	}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getAllActiveAndConfirmed() {
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.GetAllActiveAndConfirmed(), "Aktif ve onaylanmış ilanlar listelendi");
 	}
 
 }

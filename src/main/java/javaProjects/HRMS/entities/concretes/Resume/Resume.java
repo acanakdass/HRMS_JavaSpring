@@ -20,7 +20,7 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javaProjects.HRMS.entities.concretes.Candidate;
+import javaProjects.HRMS.entities.concretes.Users.Candidate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
