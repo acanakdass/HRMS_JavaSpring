@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javaProjects.HRMS.business.abstracts.CloudinaryImageService;
-import javaProjects.HRMS.business.abstracts.UserService;
+import javaProjects.HRMS.business.abstracts.Users.UserService;
 import javaProjects.HRMS.core.adapters.abstracts.CloudinaryService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorDataResult;

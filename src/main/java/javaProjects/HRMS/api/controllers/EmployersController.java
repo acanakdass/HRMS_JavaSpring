@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javaProjects.HRMS.business.abstracts.EmployerService;
+import javaProjects.HRMS.business.abstracts.Users.EmployerService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.entities.concretes.Users.Employer;

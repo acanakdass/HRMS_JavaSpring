@@ -2,9 +2,9 @@ package javaProjects.HRMS.business.concretes.Users;
 
 import org.springframework.stereotype.Service;
 
-import javaProjects.HRMS.business.abstracts.UserService;
+import javaProjects.HRMS.business.abstracts.Users.UserService;
 import javaProjects.HRMS.core.business.concretes.BaseManager;
-import javaProjects.HRMS.dataAccess.abstracts.UserDao;
+import javaProjects.HRMS.dataAccess.abstracts.Users.UserDao;
 import javaProjects.HRMS.entities.abstracts.User;
 
 @Service

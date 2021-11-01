@@ -3,14 +3,13 @@ package javaProjects.HRMS.business.concretes.Verification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javaProjects.HRMS.business.abstracts.CandidateService;
-import javaProjects.HRMS.business.abstracts.ResumeService;
+import javaProjects.HRMS.business.abstracts.Resume.ResumeService;
+import javaProjects.HRMS.business.abstracts.Users.CandidateService;
 import javaProjects.HRMS.core.business.concretes.BaseManager;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
-
-import javaProjects.HRMS.dataAccess.abstracts.ResumeDao;
+import javaProjects.HRMS.dataAccess.abstracts.Resume.ResumeDao;
 import javaProjects.HRMS.entities.concretes.Resume.Resume;
 import javaProjects.HRMS.entities.concretes.Users.Candidate;
 
@@ -35,7 +34,7 @@ public class ResumeManager extends BaseManager<ResumeDao, Resume, Integer> imple
 
 	@Override
 	public Result add(Resume resume) {
-
+		System.out.println(resume.getCoverLetter());
 		if (resume.getLanguages().size() > 0) {
 			resume.getLanguages().stream().forEach(language -> {
 				language.setResume(resume);

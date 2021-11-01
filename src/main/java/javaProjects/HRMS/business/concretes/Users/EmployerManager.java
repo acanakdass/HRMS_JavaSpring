@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javaProjects.HRMS.business.abstracts.EmployerService;
+import javaProjects.HRMS.business.abstracts.Users.EmployerService;
 import javaProjects.HRMS.business.abstracts.Verification.VerificationCodeService;
 import javaProjects.HRMS.core.business.concretes.BaseManager;
 import javaProjects.HRMS.core.utilities.results.DataResult;
@@ -18,7 +18,7 @@ import javaProjects.HRMS.core.utilities.results.ErrorResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
-import javaProjects.HRMS.dataAccess.abstracts.EmployerDao;
+import javaProjects.HRMS.dataAccess.abstracts.Users.EmployerDao;
 import javaProjects.HRMS.entities.concretes.Users.Employer;
 import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeEmployer;
 

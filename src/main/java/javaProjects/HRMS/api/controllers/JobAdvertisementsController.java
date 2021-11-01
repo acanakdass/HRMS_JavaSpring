@@ -3,13 +3,16 @@ package javaProjects.HRMS.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javaProjects.HRMS.business.abstracts.JobAdvertisementService;
+import javaProjects.HRMS.business.abstracts.JobAdvertisement.JobAdvertisementService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobAdvertisement;
@@ -17,6 +20,7 @@ import javaProjects.HRMS.entities.dtos.JobAdvertisementAddDto;
 
 @RestController
 @RequestMapping("api/jobAdvertisements")
+@CrossOrigin
 public class JobAdvertisementsController {
 
 	private JobAdvertisementService jobAdvertisementService;
@@ -30,6 +34,11 @@ public class JobAdvertisementsController {
 	@GetMapping("/getall")
 	public DataResult<List<JobAdvertisement>> getAll(){
 		return this.jobAdvertisementService.getAll();
+	}
+	
+	@GetMapping("/getAllActiveAndConfirmedByPage")
+	public DataResult<List<JobAdvertisement>> getAllActiveAndConfirmedByPage(int pageNo, int pageSize){
+		return this.jobAdvertisementService.getAllActiveAndConfirmedByPage(pageNo,pageSize);
 	}
 	
 	@GetMapping("/getallactive")
@@ -62,13 +71,18 @@ public class JobAdvertisementsController {
         return this.jobAdvertisementService.add(jobAdvertisementAddDto);
     }
 	
-	@GetMapping("/setActive")
-    public Result unactive(int jobAdvertisementId){
+	@PutMapping("/setActive")
+    public Result setActive(@RequestParam int jobAdvertisementId){
         return this.jobAdvertisementService.setActive(jobAdvertisementId);
     }
 	
-	@GetMapping("/setPassive")
-	public Result setPassive(int jobAdvertisementId){
+	@PutMapping("/setPassive")
+	public Result setPassive(@RequestParam int jobAdvertisementId){
 		return this.jobAdvertisementService.setPassive(jobAdvertisementId);
+	}
+	
+	@PutMapping("/setConfirmed")
+	public Result setConfirmed(@RequestParam int systemEmployeeId,@RequestParam int jobAdvertId) {
+		return this.jobAdvertisementService.setConfirmed(jobAdvertId, systemEmployeeId);
 	}
 }

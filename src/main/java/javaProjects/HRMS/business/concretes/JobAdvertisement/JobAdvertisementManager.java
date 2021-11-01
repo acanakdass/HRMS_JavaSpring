@@ -4,20 +4,26 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javaProjects.HRMS.business.abstracts.CityService;
-import javaProjects.HRMS.business.abstracts.EmployerService;
-import javaProjects.HRMS.business.abstracts.JobAdvertisementService;
-import javaProjects.HRMS.business.abstracts.JobTitleService;
+import javaProjects.HRMS.business.abstracts.JobAdvertisement.CityService;
+import javaProjects.HRMS.business.abstracts.JobAdvertisement.JobAdvertisementService;
+import javaProjects.HRMS.business.abstracts.JobAdvertisement.JobTitleService;
 import javaProjects.HRMS.business.abstracts.JobAdvertisement.WorkTimeService;
 import javaProjects.HRMS.business.abstracts.JobAdvertisement.WorkTypeService;
+import javaProjects.HRMS.business.abstracts.Users.EmployerService;
+import javaProjects.HRMS.business.abstracts.Users.SystemEmployeeService;
+import javaProjects.HRMS.core.business.concretes.BaseManager;
+import javaProjects.HRMS.core.constants.Messages;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
-import javaProjects.HRMS.dataAccess.abstracts.JobAdvertisementDao;
+import javaProjects.HRMS.dataAccess.abstracts.JobAdvertisement.JobAdvertisementDao;
+import javaProjects.HRMS.dataAccess.abstracts.Users.SystemEmployeeDao;
 import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobAdvertisement;
 import javaProjects.HRMS.entities.abstracts.SystemEmployeeConfirm;
 import javaProjects.HRMS.entities.concretes.JobAdvertisement.City;
@@ -25,34 +31,44 @@ import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobTitle;
 import javaProjects.HRMS.entities.concretes.JobAdvertisement.WorkTime;
 import javaProjects.HRMS.entities.concretes.JobAdvertisement.WorkType;
 import javaProjects.HRMS.entities.concretes.Users.Employer;
+import javaProjects.HRMS.entities.concretes.Users.SystemEmployee;
 import javaProjects.HRMS.entities.dtos.JobAdvertisementAddDto;
 
 @Service
-public class JobAdvertisementManager implements JobAdvertisementService {
+public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, JobAdvertisement, Integer>  implements JobAdvertisementService {
 
 	private JobAdvertisementDao jobAdvertisementDao;
 	private CityService cityService;
 	private EmployerService employerService;
 	private JobTitleService jobTitleService;
-	public WorkTypeService workTypeService;
-	public WorkTimeService workTimeService;
-
+	private WorkTypeService workTypeService;
+	private WorkTimeService workTimeService;
+	private SystemEmployeeService systemEmployeeService;
+	
 	@Autowired
 	public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao, CityService cityService,
 			EmployerService employerService, JobTitleService jobTitleService,
-			WorkTypeService workTypeService,WorkTimeService workTimeService) {
-		super();
+			WorkTypeService workTypeService,WorkTimeService workTimeService,
+			SystemEmployeeService systemEmployeeService) {
+		super(jobAdvertisementDao,"Job Advertisement");
 		this.jobAdvertisementDao = jobAdvertisementDao;
 		this.cityService = cityService;
 		this.employerService = employerService;
 		this.jobTitleService = jobTitleService;
 		this.workTimeService = workTimeService;
 		this.workTypeService = workTypeService;
+		this.systemEmployeeService = systemEmployeeService;
 	}
 
 	@Override
 	public DataResult<List<JobAdvertisement>> getAll() {
 		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findAll(), "İlanlar Listelendi");
+	}
+	
+	@Override
+	public DataResult<List<JobAdvertisement>> getAll(int pageNo,int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findAll(pageable).getContent(), "İlanlar Listelendi");
 	}
 
 	@Override
@@ -125,6 +141,22 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		jobAdvertisementDao.save(jobAdvert);
 		return new SuccessResult("İlan Pasif Hale Getirildi");
 	}
+		@Override
+		public Result  setConfirmed(int jobAdvertisementId, int systemEmployeeId) {
+	        SystemEmployee sysytemEmployee= this.systemEmployeeService.getById(systemEmployeeId).getData();
+	        
+			
+			SystemEmployeeConfirm systemEmployeeConfirm = new SystemEmployeeConfirm();
+			systemEmployeeConfirm.setConfirmed(true);		
+			systemEmployeeConfirm.setSystemEmployee(sysytemEmployee);
+			systemEmployeeConfirm.setVerifiedDate(new Date(System.currentTimeMillis()));		
+			
+			JobAdvertisement jobAdvert = this.getById(jobAdvertisementId).getData();
+			jobAdvert.setSystemEmployeeConfirm(systemEmployeeConfirm);
+			this.update(jobAdvert);
+			return new SuccessResult("İş İlanı Başarıyla Onaylandı");
+		}
+	
 
 	@Override
 	public DataResult<List<JobAdvertisement>> getAllActiveByDescReleaseDate() {
@@ -134,6 +166,13 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	@Override
 	public DataResult<List<JobAdvertisement>> getAllActiveAndConfirmed() {
 		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.GetAllActiveAndConfirmed(), "Aktif ve onaylanmış ilanlar listelendi");
+	}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getAllActiveAndConfirmedByPage(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+		List<JobAdvertisement> data = this.jobAdvertisementDao.GetAllActiveAndConfirmed(pageable);
+		return new SuccessDataResult<List<JobAdvertisement>>(data, "İlanlar Listelendi");
 	}
 
 }

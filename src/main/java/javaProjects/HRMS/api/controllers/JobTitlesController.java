@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import javaProjects.HRMS.business.abstracts.JobTitleService;
+import javaProjects.HRMS.business.abstracts.JobAdvertisement.JobTitleService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobTitle;

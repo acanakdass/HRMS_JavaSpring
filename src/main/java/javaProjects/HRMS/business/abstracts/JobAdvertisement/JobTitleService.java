@@ -1,4 +1,4 @@
-package javaProjects.HRMS.business.abstracts;
+package javaProjects.HRMS.business.abstracts.JobAdvertisement;
 
 import java.util.List;
 

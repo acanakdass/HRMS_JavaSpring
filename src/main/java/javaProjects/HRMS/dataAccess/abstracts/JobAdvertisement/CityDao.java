@@ -1,4 +1,4 @@
-package javaProjects.HRMS.dataAccess.abstracts;
+package javaProjects.HRMS.dataAccess.abstracts.JobAdvertisement;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

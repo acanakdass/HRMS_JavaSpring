@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javaProjects.HRMS.business.abstracts.CandidateService;
+import javaProjects.HRMS.business.abstracts.Users.CandidateService;
 import javaProjects.HRMS.core.adapters.concretes.MernisServiceAdapter;
 import javaProjects.HRMS.core.business.concretes.BaseManager;
 import javaProjects.HRMS.core.constants.Messages;
@@ -17,8 +17,8 @@ import javaProjects.HRMS.core.utilities.results.ErrorResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
-import javaProjects.HRMS.dataAccess.abstracts.CandidateDao;
-import javaProjects.HRMS.dataAccess.abstracts.ResumeDao;
+import javaProjects.HRMS.dataAccess.abstracts.Resume.ResumeDao;
+import javaProjects.HRMS.dataAccess.abstracts.Users.CandidateDao;
 import javaProjects.HRMS.entities.concretes.Resume.Resume;
 import javaProjects.HRMS.entities.concretes.Users.Candidate;
 import javaProjects.HRMS.entities.concretes.Users.Employer;
@@ -48,7 +48,7 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 	}
 
 	@Override
-	public Result add(Candidate candidate) {
+	public DataResult<Integer> add(Candidate candidate) {
 
 		if (CheckIfIdentityNumberExists(candidate.getIdentityNumber())) {
 			
@@ -56,15 +56,15 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 				if (IdentifyUserWithMernis(candidate)) {
 					SetVerification(candidate);
 					this.candidateDao.save(candidate);
-					return new SuccessResult("Kullanıcı bilgileri mernis ile doğrulandı ve sisteme eklendi");
+					return new SuccessDataResult<Integer>(this.getByEmail(candidate.getEmail()).getData().getId(),"Kullanıcı bilgileri mernis ile doğrulandı ve sisteme eklendi");
 				} else {
-					return new ErrorResult("Mernis kimlik bilgilerini doğrulayamadı");
+					return new ErrorDataResult<>("Mernis kimlik bilgilerini doğrulayamadı");
 				}
 			}else {
-				return new ErrorResult("Email Zaten Mevcut");
+				return new ErrorDataResult<>("Email Zaten Mevcut");
 			}
 		} else {
-			return new ErrorResult("Tc Kimlik Numarası Sistemde Mevcut");
+			return new ErrorDataResult<>("Tc Kimlik Numarası Sistemde Mevcut");
 		}
 	}
 	

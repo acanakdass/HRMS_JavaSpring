@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javaProjects.HRMS.business.abstracts.CityService;
+import javaProjects.HRMS.business.abstracts.JobAdvertisement.CityService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.entities.concretes.JobAdvertisement.City;
 import javaProjects.HRMS.entities.concretes.Users.Employer;

@@ -2,6 +2,7 @@ package javaProjects.HRMS.api.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import javaProjects.HRMS.core.utilities.results.DataResult;
 
 @RestController
 @RequestMapping("/api/cloudinary")
+@CrossOrigin
 public class CloudinaryImagesController {
 	private CloudinaryImageService cloudinaryService;
 
@@ -29,7 +31,7 @@ public class CloudinaryImagesController {
 
 
 	@PostMapping("/upload")
-	public DataResult<String> upload(@RequestParam MultipartFile file, @RequestParam int userId){
+	public DataResult<String> upload(@RequestParam("file") MultipartFile file, @RequestParam int userId){
 		System.out.println(userId);
 		return this.cloudinaryService.uploadImageFile(file,userId);
 	}

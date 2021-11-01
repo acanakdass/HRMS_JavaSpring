@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiParam;
 import javaProjects.HRMS.entities.abstracts.SystemEmployeeConfirm;
@@ -36,6 +37,7 @@ public class SystemEmployee extends User{
 	@Column(name = "last_name")
 	private String lastName;
 	
+	@JsonIgnore
 	@ApiParam(hidden = true)
 	@OneToMany(mappedBy = "systemEmployee")
 	private List<SystemEmployeeConfirm> systemEmployeeConfirms;

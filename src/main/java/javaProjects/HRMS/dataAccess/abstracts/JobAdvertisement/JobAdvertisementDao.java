@@ -1,7 +1,8 @@
-package javaProjects.HRMS.dataAccess.abstracts;
+package javaProjects.HRMS.dataAccess.abstracts.JobAdvertisement;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,4 +24,7 @@ public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Int
 	
 	@Query("From JobAdvertisement where isActive = true AND systemEmployeeConfirm.isConfirmed=true")
 	List<JobAdvertisement> GetAllActiveAndConfirmed();
+
+	@Query("From JobAdvertisement where isActive = true AND systemEmployeeConfirm.isConfirmed=true ORDER BY releaseDate ASC")
+	List<JobAdvertisement> GetAllActiveAndConfirmed(Pageable pageable);
 }

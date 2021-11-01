@@ -1,4 +1,4 @@
-package javaProjects.HRMS.business.abstracts;
+package javaProjects.HRMS.business.abstracts.Users;
 
 import javaProjects.HRMS.core.business.abstracts.BaseService;
 import javaProjects.HRMS.entities.abstracts.User;
