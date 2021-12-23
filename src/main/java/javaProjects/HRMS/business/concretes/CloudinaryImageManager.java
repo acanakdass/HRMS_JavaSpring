@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javaProjects.HRMS.business.abstracts.CloudinaryImageService;
-import javaProjects.HRMS.business.abstracts.Users.UserService;
+import javaProjects.HRMS.core.business.abstracts.UserService;
 import javaProjects.HRMS.core.adapters.abstracts.CloudinaryService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorDataResult;
-import javaProjects.HRMS.entities.abstracts.User;
+import javaProjects.HRMS.core.entities.User;
 
 @Service
 public class CloudinaryImageManager implements CloudinaryImageService {
@@ -26,7 +26,7 @@ public class CloudinaryImageManager implements CloudinaryImageService {
 	
 
 	@Override
-	public DataResult<String> uploadImageFile(MultipartFile file, int userId) {
+	public DataResult<String> uploadImageFile(MultipartFile file, Long userId) {
 		DataResult<String> uploadResult = this.cloudinaryService.uploadImageFile(file);
 		String addedPhotoUrl = uploadResult.getData();
 		DataResult<User> user =  this.userService.getById(userId);

@@ -1,6 +1,5 @@
-package javaProjects.HRMS.api.controllers;
+package javaProjects.HRMS.api.controllers.Users;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +15,8 @@ import javaProjects.HRMS.business.abstracts.Users.CandidateService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.entities.concretes.Users.Candidate;
+
+import java.util.List;
 
 
 @RestController
@@ -37,7 +38,7 @@ private CandidateService candidateService;
 	}
 	
 	@GetMapping("/getById")
-	public DataResult<Candidate> getById(@RequestParam int id){
+	public DataResult<Candidate> getById(@RequestParam Long id){
 		return this.candidateService.getById(id);
 	}
 
@@ -47,12 +48,12 @@ private CandidateService candidateService;
 	}
 	
 	@PostMapping("/add")
-	public DataResult add(@RequestBody Candidate candidate){
-		DataResult result = this.candidateService.add(candidate);
+	public DataResult<Long> add(@RequestBody Candidate candidate){
+		DataResult<Long> result = this.candidateService.add(candidate);
 		return result;
 	}
 	@DeleteMapping("/delete")
-	public Result delete(int id) {
+	public Result delete(Long id) {
 		return this.candidateService.delete(id);
 	}
 }

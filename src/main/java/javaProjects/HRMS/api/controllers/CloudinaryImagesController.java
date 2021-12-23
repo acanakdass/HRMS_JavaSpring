@@ -31,7 +31,7 @@ public class CloudinaryImagesController {
 
 
 	@PostMapping("/upload")
-	public DataResult<String> upload(@RequestParam("file") MultipartFile file, @RequestParam int userId){
+	public DataResult<String> upload(@RequestParam("file") MultipartFile file, @RequestParam Long userId){
 		System.out.println(userId);
 		return this.cloudinaryService.uploadImageFile(file,userId);
 	}

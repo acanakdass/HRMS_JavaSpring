@@ -1,4 +1,4 @@
-package javaProjects.HRMS.api.controllers;
+package javaProjects.HRMS.api.controllers.Resume;
 
 import java.util.List;
 

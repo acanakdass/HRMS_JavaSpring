@@ -16,8 +16,8 @@ import javaProjects.HRMS.entities.concretes.Users.Candidate;
 @Service
 public class ResumeManager extends BaseManager<ResumeDao, Resume, Integer> implements ResumeService {
 
-	private ResumeDao resumeDao;
-	private CandidateService candidateService;
+	private final ResumeDao resumeDao;
+	private final CandidateService candidateService;
 
 	@Autowired
 	public ResumeManager(ResumeDao resumeDao, CandidateService candidateService) {
@@ -27,7 +27,7 @@ public class ResumeManager extends BaseManager<ResumeDao, Resume, Integer> imple
 	}
 
 	@Override
-	public DataResult<Resume> getByCandidateId(int id) {
+	public DataResult<Resume> getByCandidateId(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -36,7 +36,7 @@ public class ResumeManager extends BaseManager<ResumeDao, Resume, Integer> imple
 	public Result add(Resume resume) {
 		System.out.println(resume.getCoverLetter());
 		if (resume.getLanguages().size() > 0) {
-			resume.getLanguages().stream().forEach(language -> {
+			resume.getLanguages().forEach(language -> {
 				language.setResume(resume);
 			});
 		}

@@ -2,12 +2,9 @@ package javaProjects.HRMS.core.adapters.concretes;
 
 import java.rmi.RemoteException;
 
-import javax.xml.rpc.ServiceException;
 
 import javaProjects.HRMS.core.adapters.abstracts.MernisService;
 import javaProjects.HRMS.entities.concretes.Users.Candidate;
-import tr.gov.nvi.tckimlik.WS.KPSPublicLocator;
-import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
 
 public class MernisServiceAdapter implements MernisService {
 
@@ -26,7 +23,7 @@ public class MernisServiceAdapter implements MernisService {
 //		}
 		
         		//return new KPSPublicLocator().getKPSPublicSoap().TCKimlikNoDogrula(Long.parseLong(tcNo),firstName,lastName,birthYear);
-        if( candidate.getIdentityNumber().length()==11) {
+        if( candidate.getIdentityNumber().length()==11 ) {
         	result=true;
         }else {        	
         result=false;

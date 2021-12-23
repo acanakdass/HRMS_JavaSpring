@@ -20,6 +20,6 @@ public interface JobAdvertisementService extends BaseService<JobAdvertisement, I
 	DataResult<List<JobAdvertisement>> getAllActiveByCompanyName(String companyName);
 	DataResult<List<JobAdvertisement>> getAllActiveAndConfirmed();
 	DataResult<List<JobAdvertisement>> getAllActiveAndConfirmedByPage(int pageNo,int pageSize);
-	Result setConfirmed(int jobAdvertisementId, int systemEmployeeId);
+	Result setConfirmed(int jobAdvertisementId, Long systemEmployeeId);
 
 }

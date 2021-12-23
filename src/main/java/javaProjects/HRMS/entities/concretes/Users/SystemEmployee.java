@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiParam;
 import javaProjects.HRMS.entities.abstracts.SystemEmployeeConfirm;
-import javaProjects.HRMS.entities.abstracts.User;
+import javaProjects.HRMS.core.entities.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

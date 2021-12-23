@@ -15,8 +15,8 @@ import javaProjects.HRMS.core.utilities.results.SuccessResult;
 
 public abstract class BaseManager<TEntityDao extends JpaRepository<TEntity, TEntityId>, TEntity, TEntityId>
 		implements BaseService<TEntity, TEntityId> {
-	private TEntityDao entityDao;
-	private String entityName;
+	private final TEntityDao entityDao;
+	private final String entityName;
 
 	public BaseManager(TEntityDao entityDao, String entityName) {
 		super();
@@ -33,7 +33,7 @@ public abstract class BaseManager<TEntityDao extends JpaRepository<TEntity, TEnt
 	@Override
 	public Result delete(TEntityId id) {
 		 Optional<TEntity> entity = entityDao.findById(id);
-		if (entity.isEmpty())
+		if (entity == null)
 			return new ErrorDataResult<TEntity>(Messages.notFound(entityName));
 
 		entityDao.delete(entity.get());
@@ -50,7 +50,7 @@ public abstract class BaseManager<TEntityDao extends JpaRepository<TEntity, TEnt
 	public DataResult<TEntity> getById(final TEntityId id) {
 		 Optional<TEntity> entity = entityDao.findById(id);
 
-		if (entity.isEmpty())
+		if (entity.isPresent())
 			return new ErrorDataResult<TEntity>(Messages.notFound(entityName));
 
 		return new SuccessDataResult<TEntity>(entity.get());

@@ -10,7 +10,7 @@ import javaProjects.HRMS.entities.dtos.ResumeAddDto;
 
 public interface ResumeService extends BaseService<Resume, Integer> {
 //	DataResult<List<Resume>> getAll();
-	DataResult<Resume> getByCandidateId(int id);
+	DataResult<Resume> getByCandidateId(Long id);
 	void save(Resume resume);
 	
 }

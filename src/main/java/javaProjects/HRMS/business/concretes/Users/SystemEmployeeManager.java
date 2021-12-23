@@ -15,7 +15,7 @@ import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobAdvertisement;
 import javaProjects.HRMS.entities.concretes.Users.SystemEmployee;
 
 @Service
-public class SystemEmployeeManager extends BaseManager<SystemEmployeeDao, SystemEmployee, Integer>
+public class SystemEmployeeManager extends BaseManager<SystemEmployeeDao, SystemEmployee, Long>
 		implements SystemEmployeeService {
 
 

@@ -35,7 +35,7 @@ public class SystemEmployeesController {
 	}
 	
 	@GetMapping("/getById")
-	public DataResult<SystemEmployee> getById(int id){
+	public DataResult<SystemEmployee> getById(Long id){
 		return this.systemEmployeeService.getById(id);
 	}
 

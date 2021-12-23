@@ -8,12 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import io.swagger.annotations.ApiParam;
-import javaProjects.HRMS.entities.abstracts.User;
+import javaProjects.HRMS.core.entities.User;
 import javaProjects.HRMS.entities.concretes.Resume.Resume;
 import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeCandidate;
 import lombok.AllArgsConstructor;

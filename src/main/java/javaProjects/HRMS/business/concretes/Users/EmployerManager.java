@@ -23,7 +23,7 @@ import javaProjects.HRMS.entities.concretes.Users.Employer;
 import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeEmployer;
 
 @Service
-public class EmployerManager extends BaseManager<EmployerDao, Employer, Integer> implements EmployerService {
+public class EmployerManager extends BaseManager<EmployerDao, Employer, Long> implements EmployerService {
 
 	private EmployerDao employerDao;
 

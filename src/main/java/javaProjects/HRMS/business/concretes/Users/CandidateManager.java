@@ -17,66 +17,64 @@ import javaProjects.HRMS.core.utilities.results.ErrorResult;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 import javaProjects.HRMS.core.utilities.results.SuccessResult;
-import javaProjects.HRMS.dataAccess.abstracts.Resume.ResumeDao;
 import javaProjects.HRMS.dataAccess.abstracts.Users.CandidateDao;
-import javaProjects.HRMS.entities.concretes.Resume.Resume;
 import javaProjects.HRMS.entities.concretes.Users.Candidate;
-import javaProjects.HRMS.entities.concretes.Users.Employer;
 import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeCandidate;
-import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeEmployer;
 
 @Service
-public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integer> implements CandidateService {
+public class CandidateManager extends BaseManager<CandidateDao, Candidate, Long> implements CandidateService {
 
-	private CandidateDao candidateDao;
+	private final CandidateDao candidateDao;
 	
+
 	@Autowired
 	public CandidateManager(CandidateDao candidateDao) {
 		super(candidateDao, "Candidate");
-		this.candidateDao=candidateDao;
+		this.candidateDao = candidateDao;
 	}
 
 
 	@Override
 	public DataResult<List<Candidate>> getAll() {
-		
+
 		List<Candidate> candidates = this.candidateDao.findAll();
-		if(candidates.isEmpty()) {
+		if (candidates.isEmpty()) {
 			return new ErrorDataResult<>("Aday Bulunamadı");
 		}
-		return new SuccessDataResult<List<Candidate>>(candidates,"Adaylar Listelendi");
+		return new SuccessDataResult<List<Candidate>>(candidates, "Adaylar Listelendi");
 	}
 
 	@Override
-	public DataResult<Integer> add(Candidate candidate) {
+	public DataResult<Long> add(Candidate candidate) {
 
 		if (CheckIfIdentityNumberExists(candidate.getIdentityNumber())) {
-			
+
 			if (CheckIfEmailExists(candidate.getEmail())) {
 				if (IdentifyUserWithMernis(candidate)) {
 					SetVerification(candidate);
+					
 					this.candidateDao.save(candidate);
-					return new SuccessDataResult<Integer>(this.getByEmail(candidate.getEmail()).getData().getId(),"Kullanıcı bilgileri mernis ile doğrulandı ve sisteme eklendi");
+					return new SuccessDataResult<Long>(this.getByEmail(candidate.getEmail()).getData().getId(),
+							"Kullanıcı bilgileri mernis ile doğrulandı ve sisteme eklendi");
 				} else {
 					return new ErrorDataResult<>("Mernis kimlik bilgilerini doğrulayamadı");
 				}
-			}else {
+			} else {
 				return new ErrorDataResult<>("Email Zaten Mevcut");
 			}
 		} else {
 			return new ErrorDataResult<>("Tc Kimlik Numarası Sistemde Mevcut");
 		}
 	}
-	
 
 	@Override
-	public DataResult<Candidate> getById(int id) {
+	public DataResult<Candidate> getById(Long id) {
 		Optional<Candidate> candidate = this.candidateDao.findById(id);
 		if (candidate.isEmpty()) {
 			return new ErrorDataResult<Candidate>(Messages.notFound("Candidate"));
 		}
-		return new SuccessDataResult<Candidate>(candidate.get(),Messages.complete("Candidate"));	}
-	
+		return new SuccessDataResult<Candidate>(candidate.get(), Messages.complete("Candidate"));
+	}
 
 	@Override
 	public DataResult<Candidate> getByEmail(String email) {
@@ -95,15 +93,14 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 		}
 		return new SuccessDataResult<Candidate>(candidate, "Aday Listelendi");
 	}
-	
+
 	@Override
 	public void save(Candidate candidate) {
 		this.candidateDao.save(candidate);
 	}
 
-		
 	
-	
+
 //Business Rules methods
 	private boolean CheckIfIdentityNumberExists(String identityNumber) {
 		if (this.getByIdentityNumber(identityNumber).getData() == null) {
@@ -119,7 +116,7 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 		return true;
 	}
 
-	private boolean IdentifyUserWithMernis(Candidate candidate){
+	private boolean IdentifyUserWithMernis(Candidate candidate) {
 		MernisServiceAdapter mernisService = new MernisServiceAdapter();
 		boolean mernisResult = mernisService.checkIfRealPerson(candidate);
 		if (mernisResult) {
@@ -130,7 +127,7 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 
 	private Candidate SetVerification(Candidate candidate) {
 		UUID uuid = UUID.randomUUID();
-		VerificationCodeCandidate verificationCodeCandidate =new VerificationCodeCandidate();
+		VerificationCodeCandidate verificationCodeCandidate = new VerificationCodeCandidate();
 		verificationCodeCandidate.setVerified(false);
 		verificationCodeCandidate.setCode(uuid.toString());
 		candidate.setVerificationCodeCandidate(verificationCodeCandidate);

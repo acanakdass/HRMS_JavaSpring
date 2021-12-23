@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javaProjects.HRMS.entities.abstracts.SystemEmployeeConfirm;
-import javaProjects.HRMS.entities.abstracts.User;
+import javaProjects.HRMS.core.entities.User;
 import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobAdvertisement;
 import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeEmployer;
 import lombok.AllArgsConstructor;

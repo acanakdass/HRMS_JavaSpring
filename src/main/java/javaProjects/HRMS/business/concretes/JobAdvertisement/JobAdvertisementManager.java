@@ -2,6 +2,7 @@ package javaProjects.HRMS.business.concretes.JobAdvertisement;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -37,13 +38,13 @@ import javaProjects.HRMS.entities.dtos.JobAdvertisementAddDto;
 @Service
 public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, JobAdvertisement, Integer>  implements JobAdvertisementService {
 
-	private JobAdvertisementDao jobAdvertisementDao;
-	private CityService cityService;
-	private EmployerService employerService;
-	private JobTitleService jobTitleService;
-	private WorkTypeService workTypeService;
-	private WorkTimeService workTimeService;
-	private SystemEmployeeService systemEmployeeService;
+	private final JobAdvertisementDao jobAdvertisementDao;
+	private final CityService cityService;
+	private final EmployerService employerService;
+	private final JobTitleService jobTitleService;
+	private final WorkTypeService workTypeService;
+	private final WorkTimeService workTimeService;
+	private final SystemEmployeeService systemEmployeeService;
 	
 	@Autowired
 	public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao, CityService cityService,
@@ -93,7 +94,7 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 		JobTitle jobTitle = this.jobTitleService.getById(jobAdvertisementAddDto.getJobTitleId()).getData();
 		jobAdvert.setJobTitle(jobTitle);
 
-		Employer employer = this.employerService.getById(jobAdvertisementAddDto.getEmployerId()).getData();
+		Employer employer = this.employerService.getById((long) jobAdvertisementAddDto.getEmployerId()).getData();
 		jobAdvert.setEmployer(employer);
 		
 		WorkType workType = this.workTypeService.getById(jobAdvertisementAddDto.getWorkTypeId()).getData();
@@ -122,12 +123,12 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 
 	@Override
 	public Result setActive(int jobAdvertisementId) {
-		JobAdvertisement jobAdvert = this.jobAdvertisementDao.findById(jobAdvertisementId).get();
-		if(jobAdvert==null) {
+		Optional<JobAdvertisement> jobAdvert = this.jobAdvertisementDao.findById(jobAdvertisementId);
+		if(jobAdvert.isEmpty()) {
 			return new ErrorResult("İlan Bulunamadı");
 		}
-		jobAdvert.setActive(true);
-		jobAdvertisementDao.save(jobAdvert);
+		jobAdvert.get().setActive(true);
+		jobAdvertisementDao.save(jobAdvert.get());
 		return new SuccessResult("İlan Aktif Hale Getirildi");
 	}
 	
@@ -142,7 +143,7 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 		return new SuccessResult("İlan Pasif Hale Getirildi");
 	}
 		@Override
-		public Result  setConfirmed(int jobAdvertisementId, int systemEmployeeId) {
+		public Result  setConfirmed(int jobAdvertisementId, Long systemEmployeeId) {
 	        SystemEmployee sysytemEmployee= this.systemEmployeeService.getById(systemEmployeeId).getData();
 	        
 			

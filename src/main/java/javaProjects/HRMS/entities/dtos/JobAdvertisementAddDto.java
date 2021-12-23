@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobAdvertisementAddDto {
 	
-	private int id;
+	private Long id;
 		
 	private String description;
 
