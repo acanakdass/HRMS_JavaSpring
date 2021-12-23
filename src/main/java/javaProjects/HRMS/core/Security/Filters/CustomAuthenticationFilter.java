@@ -1,7 +1,7 @@
 package javaProjects.HRMS.core.Security.Filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javaProjects.HRMS.core.utilities.security.TokenUtils;
+import javaProjects.HRMS.core.utilities.security.Helpers.TokenHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,9 +43,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         User user = (User)authResult.getPrincipal();
         log.info("successful authentication");
-        TokenUtils tokenUtils = new TokenUtils();
-        String accessToken = tokenUtils.createToken(user,10,request.getRequestURL().toString());
-        String refreshToken = tokenUtils.createToken(user,20,request.getRequestURL().toString());
+        TokenHelper tokenHelper = new TokenHelper();
+        String accessToken = tokenHelper.createToken(user,10,request.getRequestURL().toString());
+        String refreshToken = tokenHelper.createToken(user,20,request.getRequestURL().toString());
 
         Map<String,String> tokens = new HashMap<>();
         tokens.put("accesToken",accessToken);

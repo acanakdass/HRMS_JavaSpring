@@ -32,6 +32,6 @@ public class User {
 	private String photoUrl;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	private Collection<Role> roles ;
+	private Collection<Role> roles =new ArrayList<>();
 
 }

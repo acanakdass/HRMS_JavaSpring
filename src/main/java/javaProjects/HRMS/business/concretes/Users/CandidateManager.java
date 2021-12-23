@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javaProjects.HRMS.core.business.abstracts.UserService;
+import javaProjects.HRMS.core.utilities.security.Helpers.EncryptionHelper;
+import javaProjects.HRMS.core.utilities.security.Helpers.EncryptionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,24 +17,26 @@ import javaProjects.HRMS.core.business.concretes.BaseManager;
 import javaProjects.HRMS.core.constants.Messages;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 import javaProjects.HRMS.core.utilities.results.ErrorDataResult;
-import javaProjects.HRMS.core.utilities.results.ErrorResult;
-import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
-import javaProjects.HRMS.core.utilities.results.SuccessResult;
 import javaProjects.HRMS.dataAccess.abstracts.Users.CandidateDao;
 import javaProjects.HRMS.entities.concretes.Users.Candidate;
 import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeCandidate;
 
+@Slf4j
 @Service
 public class CandidateManager extends BaseManager<CandidateDao, Candidate, Long> implements CandidateService {
 
 	private final CandidateDao candidateDao;
-	
+	private final UserService userService;
+	private final EncryptionService encryptionService;
 
 	@Autowired
-	public CandidateManager(CandidateDao candidateDao) {
+	public CandidateManager(CandidateDao candidateDao, UserService userService, EncryptionService encryptionService) {
 		super(candidateDao, "Candidate");
 		this.candidateDao = candidateDao;
+
+		this.userService = userService;
+		this.encryptionService = encryptionService;
 	}
 
 
@@ -52,8 +58,10 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Long>
 			if (CheckIfEmailExists(candidate.getEmail())) {
 				if (IdentifyUserWithMernis(candidate)) {
 					SetVerification(candidate);
-					
+					log.info("Saving new candidate:{} to database",candidate.getEmail());
+					candidate.setPassword(encryptionService.EncodePassword(candidate.getPassword()));
 					this.candidateDao.save(candidate);
+					userService.addRoleToUser(candidate.getEmail(),"candidate_role");
 					return new SuccessDataResult<Long>(this.getByEmail(candidate.getEmail()).getData().getId(),
 							"Kullanıcı bilgileri mernis ile doğrulandı ve sisteme eklendi");
 				} else {

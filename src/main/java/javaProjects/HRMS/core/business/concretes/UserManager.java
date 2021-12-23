@@ -7,13 +7,13 @@ import javaProjects.HRMS.core.entities.User;
 import javaProjects.HRMS.core.repositories.RoleDao;
 import javaProjects.HRMS.core.repositories.UserDao;
 import javaProjects.HRMS.core.utilities.results.*;
+import javaProjects.HRMS.core.utilities.security.Helpers.EncryptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,14 +26,16 @@ public class UserManager extends BaseManager<UserDao, User, Long> implements Use
 
 	private final UserDao userDao;
 	private final RoleDao roleDao;
-	private final PasswordEncoder passwordEncoder;
+	private final EncryptionService encryptionService;
+
 
 	@Autowired
-	public UserManager(UserDao userDao, RoleDao roleDao, PasswordEncoder passwordEncoder) {
+	public UserManager(UserDao userDao, RoleDao roleDao, EncryptionService encryptionService) {
 		super(userDao, "User");
 		this.userDao = userDao;
 		this.roleDao = roleDao;
-		this.passwordEncoder = passwordEncoder;
+
+		this.encryptionService = encryptionService;
 	}
 	@Override
 	public DataResult<User> getByEmail(String email) {
@@ -47,7 +49,8 @@ public class UserManager extends BaseManager<UserDao, User, Long> implements Use
 	@Override
 	public User saveUser(User user) {
 		log.info("Saving new user:{} to database",user.getEmail());
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		user.setPassword(encryptionService.EncodePassword(user.getPassword()));
 		return userDao.save(user);
 	}
 	@Override

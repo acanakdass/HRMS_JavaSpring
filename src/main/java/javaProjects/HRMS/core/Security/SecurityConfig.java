@@ -4,6 +4,7 @@ package javaProjects.HRMS.core.Security;
 import javaProjects.HRMS.core.Security.Filters.CustomAuthenticationFilter;
 import javaProjects.HRMS.core.Security.Filters.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.http.HttpMethod.GET;
@@ -25,7 +27,8 @@ import static org.springframework.http.HttpMethod.POST;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -49,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/swagger-ui.html").permitAll();
         http.authorizeRequests().antMatchers("/api/login/**").permitAll();
         http.authorizeRequests().antMatchers(GET,"/api/users").hasAnyAuthority("superadmin_role");
-        http.authorizeRequests().antMatchers(GET,"/api/jobAdvertisements/**").hasAnyAuthority("superadmin_role");
+        http.authorizeRequests().antMatchers(GET,"/api/jobAdvertisements/**").hasAnyAuthority("candidate_role","superadmin_role");
         /*http.authorizeRequests().anyRequest().permitAll();*/
         /*http.authorizeRequests().antMatchers("/api/candidates").authenticated();*/
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
