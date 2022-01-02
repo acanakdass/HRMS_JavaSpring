@@ -46,5 +46,7 @@ public class Messages {
 	}
 
 	public static String RoleCreated(String name){return "Role "+name+" saved"; }
+
+    public static String SystemEmployeeSaved(String email) {return  "System employee saved :"+email;   }
 }
 

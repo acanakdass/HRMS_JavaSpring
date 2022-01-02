@@ -1,5 +1,6 @@
 package javaProjects.HRMS.business.concretes;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,11 +13,12 @@ import javaProjects.HRMS.core.utilities.results.ErrorDataResult;
 import javaProjects.HRMS.core.entities.User;
 
 @Service
+@Slf4j
 public class CloudinaryImageManager implements CloudinaryImageService {
 
-	private CloudinaryService cloudinaryService;
+	private final CloudinaryService cloudinaryService;
 	
-	private UserService userService;
+	private final UserService userService;
 	
 	@Autowired
 	public CloudinaryImageManager(CloudinaryService cloudinaryService, UserService userService) {
@@ -26,18 +28,20 @@ public class CloudinaryImageManager implements CloudinaryImageService {
 	
 
 	@Override
-	public DataResult<String> uploadImageFile(MultipartFile file, Long userId) {
+	public DataResult<String> uploadImageFile(MultipartFile file, Integer userId) {
 		DataResult<String> uploadResult = this.cloudinaryService.uploadImageFile(file);
+		log.info("Uploading image for user with id : {}",userId);
 		String addedPhotoUrl = uploadResult.getData();
-		DataResult<User> user =  this.userService.getById(userId);
+		var user =  this.userService.findById(userId);
+
 		if(user.isSuccess()) {
 			user.getData().setPhotoUrl(addedPhotoUrl);
-			//Updates user if already exists
-			this.userService.add(user.getData());			
+			log.info("Saving user with new photo url");
+			userService.saveUser(user.getData());
 		}else {
 				return new ErrorDataResult<>("User Not Found");
 		}
-		
+
 		return uploadResult;
 	}
 

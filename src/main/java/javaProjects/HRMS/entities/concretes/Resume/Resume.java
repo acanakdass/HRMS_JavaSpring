@@ -73,5 +73,5 @@ public class Resume {
 	private List<School> schools;
 	
 	@Transient
-	private Long candidateId;
+	private Integer candidateId;
 }

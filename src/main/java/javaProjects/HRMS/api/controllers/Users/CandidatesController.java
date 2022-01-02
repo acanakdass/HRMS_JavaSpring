@@ -24,7 +24,7 @@ import java.util.List;
 @CrossOrigin
 public class CandidatesController {
 
-private CandidateService candidateService;	
+private final CandidateService candidateService;
 	
 	
 @Autowired
@@ -38,7 +38,7 @@ private CandidateService candidateService;
 	}
 	
 	@GetMapping("/getById")
-	public DataResult<Candidate> getById(@RequestParam Long id){
+	public DataResult<Candidate> getById(@RequestParam Integer id){
 		return this.candidateService.getById(id);
 	}
 
@@ -48,12 +48,12 @@ private CandidateService candidateService;
 	}
 	
 	@PostMapping("/add")
-	public DataResult<Long> add(@RequestBody Candidate candidate){
-		DataResult<Long> result = this.candidateService.add(candidate);
+	public DataResult<Integer> add(@RequestBody Candidate candidate){
+		DataResult<Integer> result = this.candidateService.add(candidate);
 		return result;
 	}
 	@DeleteMapping("/delete")
-	public Result delete(Long id) {
+	public Result delete(Integer id) {
 		return this.candidateService.delete(id);
 	}
 }

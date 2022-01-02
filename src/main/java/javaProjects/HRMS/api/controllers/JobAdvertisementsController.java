@@ -82,7 +82,7 @@ public class JobAdvertisementsController {
 	}
 	
 	@PutMapping("/setConfirmed")
-	public Result setConfirmed(@RequestParam Long systemEmployeeId,@RequestParam int jobAdvertId) {
+	public Result setConfirmed(@RequestParam Integer systemEmployeeId,@RequestParam int jobAdvertId) {
 		return this.jobAdvertisementService.setConfirmed(jobAdvertId, systemEmployeeId);
 	}
 }

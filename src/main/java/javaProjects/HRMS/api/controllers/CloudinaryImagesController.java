@@ -18,7 +18,7 @@ import javaProjects.HRMS.core.utilities.results.DataResult;
 @RequestMapping("/api/cloudinary")
 @CrossOrigin
 public class CloudinaryImagesController {
-	private CloudinaryImageService cloudinaryService;
+	private final CloudinaryImageService cloudinaryService;
 
 	
 	@Autowired
@@ -31,7 +31,7 @@ public class CloudinaryImagesController {
 
 
 	@PostMapping("/upload")
-	public DataResult<String> upload(@RequestParam("file") MultipartFile file, @RequestParam Long userId){
+	public DataResult<String> upload(@RequestParam("file") MultipartFile file, @RequestParam Integer userId){
 		System.out.println(userId);
 		return this.cloudinaryService.uploadImageFile(file,userId);
 	}

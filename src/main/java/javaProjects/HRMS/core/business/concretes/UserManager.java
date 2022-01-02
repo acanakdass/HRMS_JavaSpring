@@ -22,7 +22,7 @@ import java.util.Collection;
 @Slf4j
 @Service
 /*@RequiredArgsConstructor*/
-public class UserManager extends BaseManager<UserDao, User, Long> implements UserService, UserDetailsService {
+public class UserManager extends BaseManager<UserDao, User, Integer> implements UserService, UserDetailsService {
 
 	private final UserDao userDao;
 	private final RoleDao roleDao;
@@ -53,6 +53,13 @@ public class UserManager extends BaseManager<UserDao, User, Long> implements Use
 		user.setPassword(encryptionService.EncodePassword(user.getPassword()));
 		return userDao.save(user);
 	}
+
+	@Override
+	public DataResult<User> findById(Integer id) {
+		var user = userDao.getById(id);
+		return  new SuccessDataResult<User>(user);
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 

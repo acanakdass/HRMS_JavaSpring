@@ -21,7 +21,7 @@ import javaProjects.HRMS.entities.concretes.Users.SystemEmployee;
 @CrossOrigin
 public class SystemEmployeesController {
 
-	private SystemEmployeeService systemEmployeeService;
+	private final SystemEmployeeService systemEmployeeService;
 
 	@Autowired
 	public SystemEmployeesController(SystemEmployeeService systemEmployeeService) {
@@ -35,7 +35,7 @@ public class SystemEmployeesController {
 	}
 	
 	@GetMapping("/getById")
-	public DataResult<SystemEmployee> getById(Long id){
+	public DataResult<SystemEmployee> getById(Integer id){
 		return this.systemEmployeeService.getById(id);
 	}
 

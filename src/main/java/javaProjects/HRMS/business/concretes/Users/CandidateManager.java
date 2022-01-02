@@ -24,7 +24,7 @@ import javaProjects.HRMS.entities.concretes.Verification.VerificationCodeCandida
 
 @Slf4j
 @Service
-public class CandidateManager extends BaseManager<CandidateDao, Candidate, Long> implements CandidateService {
+public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integer> implements CandidateService {
 
 	private final CandidateDao candidateDao;
 	private final UserService userService;
@@ -51,7 +51,7 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Long>
 	}
 
 	@Override
-	public DataResult<Long> add(Candidate candidate) {
+	public DataResult<Integer> add(Candidate candidate) {
 
 		if (CheckIfIdentityNumberExists(candidate.getIdentityNumber())) {
 
@@ -62,7 +62,7 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Long>
 					candidate.setPassword(encryptionService.EncodePassword(candidate.getPassword()));
 					this.candidateDao.save(candidate);
 					userService.addRoleToUser(candidate.getEmail(),"candidate_role");
-					return new SuccessDataResult<Long>(this.getByEmail(candidate.getEmail()).getData().getId(),
+					return new SuccessDataResult<Integer>(this.getByEmail(candidate.getEmail()).getData().getId(),
 							"Kullanıcı bilgileri mernis ile doğrulandı ve sisteme eklendi");
 				} else {
 					return new ErrorDataResult<>("Mernis kimlik bilgilerini doğrulayamadı");
@@ -76,7 +76,7 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Long>
 	}
 
 	@Override
-	public DataResult<Candidate> getById(Long id) {
+	public DataResult<Candidate> getById(Integer id) {
 		Optional<Candidate> candidate = this.candidateDao.findById(id);
 		if (candidate.isEmpty()) {
 			return new ErrorDataResult<Candidate>(Messages.notFound("Candidate"));

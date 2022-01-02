@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 import javaProjects.HRMS.core.utilities.results.DataResult;
 
 public interface CloudinaryImageService {
-	DataResult<String> uploadImageFile(MultipartFile file,Long userId);
+	DataResult<String> uploadImageFile(MultipartFile file,Integer userId);
 }

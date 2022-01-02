@@ -33,11 +33,11 @@ public abstract class BaseManager<TEntityDao extends JpaRepository<TEntity, TEnt
 	@Override
 	public Result delete(TEntityId id) {
 		 Optional<TEntity> entity = entityDao.findById(id);
-		if (entity == null)
-			return new ErrorDataResult<TEntity>(Messages.notFound(entityName));
+		if (entity.isPresent())
+			return new SuccessResult(Messages.deleted(entityName));
 
 		entityDao.delete(entity.get());
-		return new SuccessResult(Messages.deleted(entityName));
+		return new ErrorDataResult<TEntity>(Messages.notFound(entityName));
 	}
 
 	@Override
@@ -51,9 +51,10 @@ public abstract class BaseManager<TEntityDao extends JpaRepository<TEntity, TEnt
 		 Optional<TEntity> entity = entityDao.findById(id);
 
 		if (entity.isPresent())
-			return new ErrorDataResult<TEntity>(Messages.notFound(entityName));
+			return new SuccessDataResult<TEntity>(entity.get());
 
-		return new SuccessDataResult<TEntity>(entity.get());
+		return new ErrorDataResult<TEntity>(Messages.notFound(entityName));
+
 	}
 
 	@Override

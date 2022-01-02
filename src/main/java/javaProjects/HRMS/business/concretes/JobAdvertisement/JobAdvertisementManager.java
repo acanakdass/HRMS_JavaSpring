@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,7 @@ import javaProjects.HRMS.entities.concretes.Users.Employer;
 import javaProjects.HRMS.entities.concretes.Users.SystemEmployee;
 import javaProjects.HRMS.entities.dtos.JobAdvertisementAddDto;
 
+@Slf4j
 @Service
 public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, JobAdvertisement, Integer>  implements JobAdvertisementService {
 
@@ -74,6 +76,8 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 
 	@Override
 	public Result add(JobAdvertisementAddDto jobAdvertisementAddDto) {
+		log.info(String.valueOf(jobAdvertisementAddDto));
+		System.out.println(jobAdvertisementAddDto);
 		JobAdvertisement jobAdvert = new JobAdvertisement();
 
 		jobAdvert.setDescription(jobAdvertisementAddDto.getDescription());
@@ -89,12 +93,13 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 		jobAdvert.setSystemEmployeeConfirm(systemEmployeeConfirm);
 
 		City city = this.cityService.getById(jobAdvertisementAddDto.getCityId()).getData();
+		System.out.println(city);
 		jobAdvert.setCity(city);
 
 		JobTitle jobTitle = this.jobTitleService.getById(jobAdvertisementAddDto.getJobTitleId()).getData();
 		jobAdvert.setJobTitle(jobTitle);
 
-		Employer employer = this.employerService.getById((long) jobAdvertisementAddDto.getEmployerId()).getData();
+		Employer employer = this.employerService.getById(jobAdvertisementAddDto.getEmployerId()).getData();
 		jobAdvert.setEmployer(employer);
 		
 		WorkType workType = this.workTypeService.getById(jobAdvertisementAddDto.getWorkTypeId()).getData();
@@ -143,7 +148,7 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 		return new SuccessResult("İlan Pasif Hale Getirildi");
 	}
 		@Override
-		public Result  setConfirmed(int jobAdvertisementId, Long systemEmployeeId) {
+		public Result  setConfirmed(int jobAdvertisementId, Integer systemEmployeeId) {
 	        SystemEmployee sysytemEmployee= this.systemEmployeeService.getById(systemEmployeeId).getData();
 	        
 			
