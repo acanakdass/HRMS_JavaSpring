@@ -59,8 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         /*http.authorizeRequests().anyRequest().permitAll();*/
         /*http.authorizeRequests().antMatchers("/api/candidates").authenticated();*/
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-
         http.addFilter(customAuthenticationFilter);
     }
 }

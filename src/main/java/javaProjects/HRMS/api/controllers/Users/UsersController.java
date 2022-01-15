@@ -1,6 +1,5 @@
 package javaProjects.HRMS.api.controllers.Users;
 
-
 import javaProjects.HRMS.core.business.abstracts.UserService;
 import javaProjects.HRMS.core.entities.Dtos.RoleToUserDto;
 import javaProjects.HRMS.core.entities.Role;
@@ -18,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
+@CrossOrigin
 public class UsersController {
     private final UserService userService;
 
@@ -30,13 +30,19 @@ public class UsersController {
     @PostMapping("/save")
     public ResponseEntity<Result> saveUser(@RequestBody User user){
         URI uri = URI.create((ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString()));
-        return (ResponseEntity<Result>) ResponseEntity.created(uri).body(userService.add(user));
+        return (ResponseEntity<Result>) ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
     @PostMapping("/role/save")
     public ResponseEntity<DataResult<Role>> saveRole(@RequestBody Role role){
         URI uri = URI.create((ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString()));
         return ResponseEntity.created(uri).body(userService.saveRole(role));
+    }
+
+    @DeleteMapping("/user/delete")
+    public ResponseEntity<Result> deleteUser(@RequestBody Integer id){
+        URI uri = URI.create((ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString()));
+        return ResponseEntity.created(uri).body(userService.deleteUser(id));
     }
 
     @PostMapping("/role/addToUser")

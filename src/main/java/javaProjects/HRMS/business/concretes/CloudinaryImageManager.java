@@ -37,7 +37,8 @@ public class CloudinaryImageManager implements CloudinaryImageService {
 		if(user.isSuccess()) {
 			user.getData().setPhotoUrl(addedPhotoUrl);
 			log.info("Saving user with new photo url");
-			userService.saveUser(user.getData());
+			userService.update(user.getData());
+			/*userService.saveUser(user.getData());*/
 		}else {
 				return new ErrorDataResult<>("User Not Found");
 		}

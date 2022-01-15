@@ -2,6 +2,7 @@ package javaProjects.HRMS.api.controllers.Users;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,8 +53,9 @@ private final CandidateService candidateService;
 		DataResult<Integer> result = this.candidateService.add(candidate);
 		return result;
 	}
-	@DeleteMapping("/delete")
-	public Result delete(Integer id) {
-		return this.candidateService.delete(id);
+	@PostMapping("/delete")
+	public ResponseEntity<Result> delete(@RequestParam Integer id) {
+		System.out.println(id);
+		return ResponseEntity.ok(this.candidateService.delete(id));
 	}
 }

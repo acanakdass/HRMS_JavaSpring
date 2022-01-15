@@ -3,6 +3,7 @@ package javaProjects.HRMS.core.Security.Filters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javaProjects.HRMS.core.utilities.security.Helpers.TokenHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,9 +36,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String password = request.getParameter("password");
         log.info("Username is : {}",username);
         log.info("Password is : {}",password);
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,password);
         log.info(authenticationToken.toString());
-        return authenticationManager.authenticate(authenticationToken);
+        var authRes = authenticationManager.authenticate(authenticationToken);;
+        return authRes;
+
+
     }
 
     @Override
@@ -52,6 +58,18 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         tokens.put("refreshToken",refreshToken);
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(),tokens);
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        Map<String, Object> data = new HashMap<>();
+        data.put("timestamp",Calendar.getInstance().getTime());
+        data.put("message",exception.getMessage());
+        log.error(exception.getMessage());
+        response.getOutputStream().println(objectMapper.writeValueAsString(data));
 
     }
+
 }

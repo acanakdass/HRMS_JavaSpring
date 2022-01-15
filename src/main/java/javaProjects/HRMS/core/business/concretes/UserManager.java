@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -47,11 +48,11 @@ public class UserManager extends BaseManager<UserDao, User, Integer> implements 
 		}
 	}
 	@Override
-	public User saveUser(User user) {
+	public Result saveUser(User user) {
 		log.info("Saving new user:{} to database",user.getEmail());
 
 		user.setPassword(encryptionService.EncodePassword(user.getPassword()));
-		return userDao.save(user);
+		return new SuccessDataResult<User>(userDao.save(user));
 	}
 
 	@Override
@@ -90,8 +91,29 @@ public class UserManager extends BaseManager<UserDao, User, Integer> implements 
 	}
 
 	@Override
+	public Result deleteUser(Integer id) {
+		var user = this.findById(id);
+		if(!user.isSuccess()){
+			return  new ErrorResult(Messages.UserNotFound());
+		}
+		userDao.delete(user.getData());
+		return new SuccessResult(Messages.deleted("User with id "+id));
+	}
+
+	@Override
 	public DataResult<Role> saveRole(Role role) {
 		log.info("Saving new role {} to database",role.getName());
 		return new SuccessDataResult<Role>(roleDao.save(role),Messages.RoleCreated(role.getName()));
 	}
+
+	@Override
+	public DataResult<List<Role>> getAllRoles() {
+		return new SuccessDataResult<List<Role>>(roleDao.findAll(),Messages.Listed());
+	}
+
+	@Override
+	public DataResult<Role> getRoleByName(String name) {
+		return new SuccessDataResult<Role>(roleDao.findByName(name),Messages.Listed());
+	}
+
 }

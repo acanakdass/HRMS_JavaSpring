@@ -6,11 +6,16 @@ import javaProjects.HRMS.core.entities.User;
 import javaProjects.HRMS.core.utilities.results.Result;
 import javaProjects.HRMS.core.utilities.results.SuccessDataResult;
 
+import java.util.List;
+
 public interface UserService extends BaseService<User,Integer> {
-	User saveUser(User user);
+	Result saveUser(User user);
 	DataResult<User> findById(Integer id);
 	DataResult<User> getByEmail(String email);
-	Result addRoleToUser(String email, String roleName);
 	DataResult<Role> saveRole(Role role);
+	DataResult<List<Role>> getAllRoles();
+	DataResult<Role> getRoleByName(String name);
+	Result addRoleToUser(String email, String roleName);
+	Result deleteUser(Integer id);
 
 }

@@ -152,13 +152,15 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 	        SystemEmployee sysytemEmployee= this.systemEmployeeService.getById(systemEmployeeId).getData();
 	        
 			
-			SystemEmployeeConfirm systemEmployeeConfirm = new SystemEmployeeConfirm();
+/*			SystemEmployeeConfirm systemEmployeeConfirm = new SystemEmployeeConfirm();
 			systemEmployeeConfirm.setConfirmed(true);		
 			systemEmployeeConfirm.setSystemEmployee(sysytemEmployee);
-			systemEmployeeConfirm.setVerifiedDate(new Date(System.currentTimeMillis()));		
+			systemEmployeeConfirm.setVerifiedDate(new Date(System.currentTimeMillis()));		*/
 			
 			JobAdvertisement jobAdvert = this.getById(jobAdvertisementId).getData();
-			jobAdvert.setSystemEmployeeConfirm(systemEmployeeConfirm);
+			jobAdvert.getSystemEmployeeConfirm().setConfirmed(true);
+			jobAdvert.getSystemEmployeeConfirm().setSystemEmployee(sysytemEmployee);
+			jobAdvert.getSystemEmployeeConfirm().setVerifiedDate(new Date(System.currentTimeMillis()));
 			this.update(jobAdvert);
 			return new SuccessResult("İş İlanı Başarıyla Onaylandı");
 		}

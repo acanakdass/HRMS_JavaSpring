@@ -1,10 +1,12 @@
 package javaProjects.HRMS.business.concretes.Users;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import javaProjects.HRMS.core.business.abstracts.UserService;
+import javaProjects.HRMS.core.entities.Role;
 import javaProjects.HRMS.core.utilities.security.Helpers.EncryptionHelper;
 import javaProjects.HRMS.core.utilities.security.Helpers.EncryptionService;
 import lombok.extern.slf4j.Slf4j;
@@ -59,8 +61,10 @@ public class CandidateManager extends BaseManager<CandidateDao, Candidate, Integ
 				if (IdentifyUserWithMernis(candidate)) {
 					SetVerification(candidate);
 					log.info("Saving new candidate:{} to database",candidate.getEmail());
+					log.info(candidate.getPassword());
 					candidate.setPassword(encryptionService.EncodePassword(candidate.getPassword()));
-					this.candidateDao.save(candidate);
+					log.info(candidate.getPassword());
+					candidateDao.save(candidate);
 					userService.addRoleToUser(candidate.getEmail(),"candidate_role");
 					return new SuccessDataResult<Integer>(this.getByEmail(candidate.getEmail()).getData().getId(),
 							"Kullanıcı bilgileri mernis ile doğrulandı ve sisteme eklendi");

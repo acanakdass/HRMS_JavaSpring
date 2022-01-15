@@ -2,6 +2,7 @@ package javaProjects.HRMS.api.controllers;
 
 import java.util.List;
 
+import javaProjects.HRMS.entities.dtos.ConfirmAdvertDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,18 +72,18 @@ public class JobAdvertisementsController {
         return this.jobAdvertisementService.add(jobAdvertisementAddDto);
     }
 	
-	@PutMapping("/setActive")
+	@PostMapping("/setActive")
     public Result setActive(@RequestParam int jobAdvertisementId){
         return this.jobAdvertisementService.setActive(jobAdvertisementId);
     }
 	
-	@PutMapping("/setPassive")
+	@PostMapping("/setPassive")
 	public Result setPassive(@RequestParam int jobAdvertisementId){
 		return this.jobAdvertisementService.setPassive(jobAdvertisementId);
 	}
 	
 	@PutMapping("/setConfirmed")
-	public Result setConfirmed(@RequestParam Integer systemEmployeeId,@RequestParam int jobAdvertId) {
-		return this.jobAdvertisementService.setConfirmed(jobAdvertId, systemEmployeeId);
+	public Result setConfirmed(@RequestBody ConfirmAdvertDto confirmAdvertDto) {
+		return this.jobAdvertisementService.setConfirmed(confirmAdvertDto.getJobAdvertId(), confirmAdvertDto.getSystemEmployeeId());
 	}
 }

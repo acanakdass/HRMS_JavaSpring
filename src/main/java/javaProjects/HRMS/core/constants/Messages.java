@@ -3,7 +3,12 @@ package javaProjects.HRMS.core.constants;
 
 public class Messages {
 
-	public static String RoleAddedToUser(String role,String email){return "Role "+role+" added to user "+email;};
+
+    public static String Listed(){return  "Data listed";}
+
+    public static String UserNotFound(){return "User not found";};
+
+    public static String RoleAddedToUser(String role, String email){return "Role "+role+" added to user "+email;};
 
     public static String added(final String name) {
 		return name + " has added.";
