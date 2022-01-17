@@ -93,13 +93,13 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 		jobAdvert.setSystemEmployeeConfirm(systemEmployeeConfirm);
 
 		City city = this.cityService.getById(jobAdvertisementAddDto.getCityId()).getData();
-		System.out.println(city);
 		jobAdvert.setCity(city);
 
 		JobTitle jobTitle = this.jobTitleService.getById(jobAdvertisementAddDto.getJobTitleId()).getData();
 		jobAdvert.setJobTitle(jobTitle);
 
 		Employer employer = this.employerService.getById(jobAdvertisementAddDto.getEmployerId()).getData();
+		log.info(employer.getEmail());
 		jobAdvert.setEmployer(employer);
 		
 		WorkType workType = this.workTypeService.getById(jobAdvertisementAddDto.getWorkTypeId()).getData();

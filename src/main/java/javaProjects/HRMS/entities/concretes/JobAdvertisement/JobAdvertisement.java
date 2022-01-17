@@ -33,7 +33,7 @@ public class JobAdvertisement {
 	
 	
 
-	@Column(name="description")
+	@Column(columnDefinition="TEXT",name = "description")
 	private String description;
 	
 
