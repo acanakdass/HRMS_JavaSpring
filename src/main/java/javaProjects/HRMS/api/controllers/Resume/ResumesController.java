@@ -20,7 +20,7 @@ import javaProjects.HRMS.entities.concretes.Resume.Resume;
 @RequestMapping("/api/resumes")
 @CrossOrigin
 public class ResumesController {
-	private ResumeService resumeService;
+	private final ResumeService resumeService;
 
 	@Autowired
 	public ResumesController(ResumeService resumeService) {

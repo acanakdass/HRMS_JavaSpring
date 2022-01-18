@@ -3,6 +3,7 @@ package javaProjects.HRMS.core.Security;
 
 import javaProjects.HRMS.core.Security.Filters.CustomAuthenticationFilter;
 import javaProjects.HRMS.core.Security.Filters.CustomAuthorizationFilter;
+import javaProjects.HRMS.core.business.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

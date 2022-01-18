@@ -8,13 +8,8 @@ import javaProjects.HRMS.entities.concretes.JobAdvertisement.WorkTime;
 import javaProjects.HRMS.entities.concretes.JobAdvertisement.WorkType;
 import javaProjects.HRMS.entities.dtos.ConfirmAdvertDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javaProjects.HRMS.business.abstracts.JobAdvertisement.JobAdvertisementService;
 import javaProjects.HRMS.core.utilities.results.DataResult;
@@ -43,6 +38,11 @@ public class JobAdvertisementsController {
 	public DataResult<List<JobAdvertisement>> getAll(){
 		return this.jobAdvertisementService.getAll();
 	}
+
+	@DeleteMapping("/delete")
+	public ResponseEntity<Result> delete(@RequestParam Integer jobAdvertId) {
+		return ResponseEntity.ok(this.jobAdvertisementService.delete(jobAdvertId));
+	}
 	
 	@GetMapping("/getAllActiveAndConfirmedByPage")
 	public DataResult<List<JobAdvertisement>> getAllActiveAndConfirmedByPage(int pageNo, int pageSize){
@@ -58,6 +58,11 @@ public class JobAdvertisementsController {
 	public DataResult<List<JobAdvertisement>> getAllActiveAndConfirmed(){
 		return this.jobAdvertisementService.getAllActiveAndConfirmed();
 	}
+
+	@GetMapping("/getAllActiveAndConfirmedSize")
+	public DataResult<Integer> getAllActiveAndConfirmedSize(){
+		return this.jobAdvertisementService.getAllActiveAndConfirmedCount();
+	}
 	
 	@GetMapping("/getAllActiveByAscReleaseDate")
 	public DataResult<List<JobAdvertisement>> getAllActiveByAscReleaseDate(){
@@ -67,6 +72,11 @@ public class JobAdvertisementsController {
 	@GetMapping("/getAllActiveByDescReleaseDate")
 	public DataResult<List<JobAdvertisement>> getAllActiveByDescReleaseDate(){
 		return this.jobAdvertisementService.getAllActiveByDescReleaseDate();
+	}
+
+	@GetMapping("/getAllByEmployerId")
+	public DataResult<List<JobAdvertisement>> getAllByEmployerId(@RequestParam Integer employerId){
+		return this.jobAdvertisementService.getAllByEmployerId(employerId);
 	}
 	
 	@GetMapping("/getAllActiveByCompanyName")

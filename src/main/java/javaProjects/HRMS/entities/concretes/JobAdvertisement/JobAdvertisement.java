@@ -1,19 +1,13 @@
 package javaProjects.HRMS.entities.concretes.JobAdvertisement;
 
 import java.sql.Date;
+import java.util.Collection;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javaProjects.HRMS.entities.abstracts.SystemEmployeeConfirm;
+import javaProjects.HRMS.entities.concretes.Application;
 import javaProjects.HRMS.entities.concretes.Users.Employer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -78,5 +72,9 @@ public class JobAdvertisement {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "system_employee_confirm_id")
 	private SystemEmployeeConfirm systemEmployeeConfirm;
+
+	@OneToMany(mappedBy = "jobAdvert")
+	@JsonIgnore
+	private Collection<Application> applications;
 	
 }

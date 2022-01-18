@@ -3,6 +3,7 @@ package javaProjects.HRMS.business.concretes.JobAdvertisement;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,11 +64,6 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 		this.systemEmployeeService = systemEmployeeService;
 	}
 
-	@Override
-	public DataResult<List<JobAdvertisement>> getAll() {
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findAll(), "İlanlar Listelendi");
-	}
-	
 	@Override
 	public DataResult<List<JobAdvertisement>> getAll(int pageNo,int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
@@ -139,15 +135,23 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 	
 	@Override
 	public Result setPassive(int jobAdvertisementId) {
-		JobAdvertisement jobAdvert = this.jobAdvertisementDao.findById(jobAdvertisementId).get();
-		if(jobAdvert==null) {
+		var jobAdvert = this.jobAdvertisementDao.findById(jobAdvertisementId);
+		if(jobAdvert.isEmpty()) {
 			return new ErrorResult("İlan Bulunamadı");
 		}
-		jobAdvert.setActive(false);
-		jobAdvertisementDao.save(jobAdvert);
+		jobAdvert.get().setActive(false);
+		jobAdvertisementDao.save(jobAdvert.get());
 		return new SuccessResult("İlan Pasif Hale Getirildi");
 	}
-		@Override
+
+	/*@Override
+	public Result delete(int jobAdvertisementId) {
+		var jobAdvert = this.getById(jobAdvertisementId);
+		this.jobAdvertisementDao.delete(jobAdvert.getData());
+		return new SuccessResult(Messages.JobAdvertDeleted());
+	}*/
+
+	@Override
 		public Result  setConfirmed(int jobAdvertisementId, Integer systemEmployeeId) {
 	        SystemEmployee sysytemEmployee= this.systemEmployeeService.getById(systemEmployeeId).getData();
 	        
@@ -177,10 +181,22 @@ public class JobAdvertisementManager extends BaseManager<JobAdvertisementDao, Jo
 	}
 
 	@Override
+	public DataResult<Integer> getAllActiveAndConfirmedCount() {
+		return new SuccessDataResult<Integer>(this.getAllActiveAndConfirmed().getData().size());
+	}
+
+	@Override
 	public DataResult<List<JobAdvertisement>> getAllActiveAndConfirmedByPage(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
 		List<JobAdvertisement> data = this.jobAdvertisementDao.GetAllActiveAndConfirmed(pageable);
 		return new SuccessDataResult<List<JobAdvertisement>>(data, "İlanlar Listelendi");
+	}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getAllByEmployerId(int employerId) {
+		var adverts = this.jobAdvertisementDao.findAll().stream().filter(j->j.getEmployer().getId()==employerId).collect(Collectors.toList());
+		return new SuccessDataResult<List<JobAdvertisement>>(adverts,Messages.Listed());
+
 	}
 
 }

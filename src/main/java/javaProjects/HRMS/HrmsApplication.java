@@ -28,9 +28,7 @@ public class HrmsApplication {
 	CommandLineRunner run(UserService userService){
 		return  args -> {
 
-			/*userService.saveUser(new User(null,"testuser1@mail.com","testuser",null,new ArrayList<>()));
-			userService.addRoleToUser("testuser1@mail.com","superadmin_role");*/
-			if(userService.getAll().getData().isEmpty()){
+			/*if(userService.getAll().getData().isEmpty()){
 				userService.saveRole(new Role(null,"superadmin_role"));
 				userService.saveRole(new Role(null,"employer_role"));
 				userService.saveRole(new Role(null,"candidate_role"));
@@ -47,7 +45,7 @@ public class HrmsApplication {
 				userService.addRoleToUser("candidate@hrms.com","candidate_role");
 				userService.addRoleToUser("systememployee@hrms.com","systememployee_role");
 
-			}
+			}*/
 		};
 	}
 }

@@ -1,6 +1,8 @@
 package javaProjects.HRMS.core.Security.Filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javaProjects.HRMS.core.business.abstracts.UserService;
+import javaProjects.HRMS.core.business.concretes.UserManager;
 import javaProjects.HRMS.core.utilities.security.Helpers.TokenHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,9 +24,11 @@ import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+
 @Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -36,6 +40,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String password = request.getParameter("password");
         log.info("Username is : {}",username);
         log.info("Password is : {}",password);
+
+        /*var employerRole = userService.getRoleByName("employer_role").getData();
+        var isEmployerRole = userService.getByEmail(username).getData().getRoles().contains(employerRole);
+        if (isEmployerRole){
+            log.info("This is an employer user");
+        }
+        log.info("Not an employer");*/
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,password);
         log.info(authenticationToken.toString());
@@ -50,10 +61,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         User user = (User)authResult.getPrincipal();
         log.info("successful authentication");
         TokenHelper tokenHelper = new TokenHelper();
-        String accessToken = tokenHelper.createToken(user,10,request.getRequestURL().toString());
-        String refreshToken = tokenHelper.createToken(user,20,request.getRequestURL().toString());
+        String accessToken = tokenHelper.createToken(user,60,request.getRequestURL().toString());
+        String refreshToken = tokenHelper.createToken(user,60,request.getRequestURL().toString());
 
         Map<String,String> tokens = new HashMap<>();
+
         tokens.put("accesToken",accessToken);
         tokens.put("refreshToken",refreshToken);
         response.setContentType(APPLICATION_JSON_VALUE);
@@ -69,7 +81,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         data.put("message",exception.getMessage());
         log.error(exception.getMessage());
         response.getOutputStream().println(objectMapper.writeValueAsString(data));
-
     }
 
 }

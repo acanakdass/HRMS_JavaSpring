@@ -4,11 +4,13 @@ package javaProjects.HRMS.core.constants;
 public class Messages {
 
 
+    public static String JobAdvertDeleted(){return "Job Advertisements deleted";}
+
     public static String Listed(){return  "Data listed";}
 
-    public static String UserNotFound(){return "User not found";};
+    public static String UserNotFound(){return "User not found";}
 
-    public static String RoleAddedToUser(String role, String email){return "Role "+role+" added to user "+email;};
+    public static String RoleAddedToUser(String role, String email){return "Role "+role+" added to user "+email;}
 
     public static String added(final String name) {
 		return name + " has added.";
@@ -52,6 +54,12 @@ public class Messages {
 
 	public static String RoleCreated(String name){return "Role "+name+" saved"; }
 
-    public static String SystemEmployeeSaved(String email) {return  "System employee saved :"+email;   }
+    public static String SystemEmployeeSaved(String email) {return  "System employee saved :"+email;}
+
+    public static String Applied() {return "Successfully applied to the advertisement";}
+
+	public static String ApplicationDeleted() {return "Application Deleted";}
+
+    public static String AlreadyApplied() {return "There is already an application for this advertisement.";}
 }
 

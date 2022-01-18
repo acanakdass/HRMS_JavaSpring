@@ -9,7 +9,6 @@ import javaProjects.HRMS.entities.concretes.JobAdvertisement.JobAdvertisement;
 import javaProjects.HRMS.entities.dtos.JobAdvertisementAddDto;
 
 public interface JobAdvertisementService extends BaseService<JobAdvertisement, Integer> {
-	DataResult<List<JobAdvertisement>> getAll();
 	DataResult<List<JobAdvertisement>> getAll(int pageNo,int pageSize);
 	Result add(JobAdvertisementAddDto jobAdvertisementAddDto);
 	Result setPassive(int jobAdvertisementId);
@@ -19,7 +18,9 @@ public interface JobAdvertisementService extends BaseService<JobAdvertisement, I
 	DataResult<List<JobAdvertisement>> getAllActiveByDescReleaseDate();
 	DataResult<List<JobAdvertisement>> getAllActiveByCompanyName(String companyName);
 	DataResult<List<JobAdvertisement>> getAllActiveAndConfirmed();
+	DataResult<Integer> getAllActiveAndConfirmedCount();
 	DataResult<List<JobAdvertisement>> getAllActiveAndConfirmedByPage(int pageNo,int pageSize);
+	DataResult<List<JobAdvertisement>> getAllByEmployerId(int employerId);
 	Result setConfirmed(int jobAdvertisementId, Integer systemEmployeeId);
 
 }
